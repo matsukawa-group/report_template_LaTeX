@@ -113,6 +113,136 @@
 \renewcommand{\figurename}{Fig.~}
 \renewcommand{\tablename}{Table~}
 
+%==================================================
+% 著者情報
+%==================================================
+
+\newcounter{authorcount}
+
+\newcommand{\authors}{}
+
+\newcommand{\addauthor}[3]{%
+  \stepcounter{authorcount}%
+  \gappto{\authors}{%
+    \AuthorBlock{#1}{#2}{#3}%
+  }%
+}
+
+\newcommand{\AuthorBlock}[3]{%
+  \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    {\bfseries #1\par}
+    \vspace{0.5em}
+    #2\par
+    \vspace{0.5em}
+    \href{mailto:#3}{#3}
+  \end{minipage}%
+}
+
+%==================================================
+% 表紙
+%==================================================
+
+\definecolor{titleblue}{HTML}{1F4E79}
+
+\newcommand{\makecover}{%
+  \begin{titlepage}
+    \thispagestyle{empty}
+
+    \vspace*{\fill}
+
+    \begin{center}
+
+      {\color{titleblue}\rule{\textwidth}{2pt}}
+      \vspace{-0.2em}
+      {\color{titleblue}\rule{\textwidth}{1pt}}
+      \vspace{0.3em}
+      {\LARGE\bfseries
+        \DocTitle
+        \par
+      }
+      \vspace{1em}
+      {\color{titleblue}\rule{\textwidth}{1pt}}
+      \vspace{-0.2em}
+      {\color{titleblue}\rule{\textwidth}{2pt}}
+
+      \vspace{10em}
+
+      %------------------------------------------
+      % 著者
+      %------------------------------------------
+
+      \ifnum\value{authorcount}=1
+        \authors
+      \else
+        \begin{tabularx}{\textwidth}{
+          >{\centering\arraybackslash}X
+          >{\centering\arraybackslash}X
+        }
+          \authors
+        \end{tabularx}
+      \fi
+
+      \vspace{15em}
+
+      {\large \DocDate}
+
+    \end{center}
+
+    \vspace*{\fill}
+
+  \end{titlepage}
+
+  % 本文を 1 ページから開始
+  \setcounter{page}{1}
+}
+
+%==================================================
+% 表紙なしの場合のタイトル
+%==================================================
+
+\newcommand{\makeinlineauthor}{%
+  \begin{center}
+
+    {\LARGE\bfseries
+      \DocTitle
+      \par
+    }
+
+    \vspace{2em}
+
+    \ifnum\value{authorcount}=1
+      \authors
+    \else
+      \begin{tabularx}{\textwidth}{
+        >{\centering\arraybackslash}X
+        >{\centering\arraybackslash}X
+      }
+        \authors
+      \end{tabularx}
+    \fi
+
+    \vspace{1em}
+
+    \DocDate
+
+  \end{center}
+
+  \vspace{3em}
+}
+
+%==================================================
+% タイトル・著者情報を出力
+%==================================================
+
+\newcommand{\makedocumenttitle}{%
+  \ifcover
+    \makecover
+  \else
+    \makeinlineauthor
+  \fi
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %%% 章見出しの再定義 %%%
