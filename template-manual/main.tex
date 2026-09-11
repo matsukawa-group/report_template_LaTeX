@@ -1,0 +1,60 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%                   report_template_LaTeX
+%%%                          main.tex
+%%%   <https://github.com/matsukawa-group/report_template_LaTeX>
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 文書クラスの設定 %%%
+\documentclass[
+    paper=a4paper,      % A4 用紙サイズ
+    article,            % article 相当の文書クラス
+    fleqn,              % 数式を左寄せ
+    fontsize=10pt,      % 欧文サイズ 10 pt
+    jafontsize=10pt,    % 和文サイズ 10 pt
+    head_space=25mm,    % 天の余白
+    foot_space=25mm,    % 地の余白
+    gutter=20mm,        % のどの余白
+    fore-edge=20mm      % 小口の余白
+    ]{jlreq}            % jlreq クラスを使用
+
+\usepackage{settings}
+
+\title{\vspace{-8mm}
+    ここに文書のタイトルを入れます
+    }
+\author{
+    著者の所属・学年     \\
+    著者名
+    }
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{cover}
+
+\section{序論}
+
+\jalipsum[1-10]{wagahai}
+
+\section{本論}
+
+\jalipsum[1-10]{wagahai}
+
+\section{結論}
+
+\jalipsum[1-10]{wagahai}
+
+%%% 文献 %%%
+% \biblist
+% 使用する bst ファイル
+% \bibliographystyle{jsme}
+% 読み込む bib ファイル
+% \bibliography{
+%     mybib_en.bib,
+%     mybib_jp.bib
+% }
+
+\end{document}
