@@ -54,6 +54,7 @@
 % \renewcommand{\thesubfigure}{(\alph{subfigure})}
 
 %%% 表関連 %%%
+\usepackage{tabularx}
 % 行の結合
 \usepackage{multirow}
 % 表のカスタマイズ性が高い tabularray パッケージ
@@ -131,7 +132,7 @@
 \newcommand{\AuthorBlock}[3]{%
   \begin{minipage}[t]{0.45\textwidth}
     \centering
-    {\bfseries #1\par}
+    #1\par
     \vspace{0.5em}
     #2\par
     \vspace{0.5em}
@@ -154,16 +155,16 @@
     \begin{center}
 
       {\color{titleblue}\rule{\textwidth}{2pt}}
-      \vspace{-0.2em}
+      \\\vspace{-1.4em}
       {\color{titleblue}\rule{\textwidth}{1pt}}
-      \vspace{0.3em}
+      \\\vspace{0.7em}
       {\LARGE\bfseries
         \DocTitle
         \par
       }
-      \vspace{1em}
+      \vspace{0.7em}
       {\color{titleblue}\rule{\textwidth}{1pt}}
-      \vspace{-0.2em}
+      \\\vspace{-1.3em}
       {\color{titleblue}\rule{\textwidth}{2pt}}
 
       \vspace{10em}
@@ -173,14 +174,14 @@
       %------------------------------------------
 
       \ifnum\value{authorcount}=1
-        \authors
+        {\fontsize{14pt}{16pt}\selectfont\authors}
       \else
         \begin{tabularx}{\textwidth}{
           >{\centering\arraybackslash}X
           >{\centering\arraybackslash}X
         }
           \authors
-        \end{tabularx}
+        {\fontsize{14pt}{16pt}\selectfont\authors}
       \fi
 
       \vspace{15em}
