@@ -1,0 +1,376 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%                   report_template_LaTeX
+%%%                       settings.sty
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%
+%%% Packages %%%
+%%%%%%%%%%%%%%%%
+%%% 数式・フォント %%%
+% Times 系フォント + Unicode Math
+\usepackage{fontspec} % 欧文フォントの設定
+\usepackage{luatexja} % LuaLaTeX 用の日本語処理パッケージ
+\usepackage{luatexja-fontspec} % LuaLaTeX 用の日本語フォント設定
+\usepackage{luatexja-otf} % LuaLaTeX 用の OTF フォントサポート
+\usepackage[math-style=TeX,bold-style=TeX]{unicode-math} % 数学フォント設定
+% 欧文フォント設定
+% \setmainfont[Ligatures=TeX]{XITS}
+% \setsansfont[Ligatures=TeX]{TeX Gyre Heros}
+% 数学フォント設定
+% \setmathfont{XITS Math}
+% \setmathfont{XITS Math}[range={cal,bfcal},StylisticSet=1]
+% 数式用パッケージ
+% \usepackage{physics}
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usepackage{fixdif}
+\usepackage{derivative}
+\allowdisplaybreaks
+% 文字に色を付ける
+\usepackage{color}
+
+%%% hyperref %%%
+% ハイパーリンクに色が付かないようにしたいときは hidelinks のコメントアウトをはずす
+\usepackage[%
+  bookmarks=true,% PDF にしおりをつける
+  bookmarksnumbered=true,% しおりに章・節番号を含める
+  setpagesize=false,% 紙のサイズを変更しない
+  colorlinks=true,% リンクのテキストに色をつける
+  % hidelinks,% リンクに色をつけない
+  allcolors=blue% リンクの色を全て青に統一する
+  ]{hyperref}
+
+%%% 図関連 %%%
+% 図の読み込みに必要
+\usepackage{graphicx}
+%%% 関連する図を並べる際に使用
+% Fig. xxx の後ろをコロンではなくスペースに設定
+\usepackage[labelsep=quad]{caption}
+% サブ図のキャプションの出力を (a) xxx に設定
+\usepackage[labelsep=space]{subcaption}
+% サブ図参照時の出力を括弧ありをデフォルトにしたい場合は下記コマンドを使用
+% \renewcommand{\thesubfigure}{(\alph{subfigure})}
+
+%%% 表関連 %%%
+\usepackage{tabularx}
+% 行の結合
+\usepackage{multirow}
+% 表のカスタマイズ性が高い tabularray パッケージ
+\usepackage{tabularray}
+% tblr 環境のセルの余白を変更
+\SetTblrInner{rowsep=0pt}
+
+%%% 文献関連 %%%
+% natbib
+\usepackage{natbib}
+% \citep の括弧を全角に変更．英語で執筆する場合はコメントアウトする．
+\renewcommand{\citep}[1]{（\citealp{#1}）}
+% 日本語で執筆する場合でも図表のキャプションは英語なので，半角括弧で出力する場合に使用するオリジナルコマンド．
+\newcommand{\citepe}[1]{(\citealp{#1})}
+
+%%% その他のパッケージ %%%
+% 単位
+\usepackage{siunitx}
+% ロゴ関連
+\usepackage{bxtexlogo}
+% 枠
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\tcbset{
+  fonttitle=\sffamily\bfseries, % title をゴシック体（サンセリフ体）に設定
+  enhanced,
+  drop fuzzy shadow             % 影つき
+}
+% レイアウト確認用
+% \usepackage{layout}
+% ダミーテキスト生成パッケージ
+\usepackage{lipsum}
+\usepackage{bxjalipsum}
+% 行番号の表示
+\usepackage[mathlines,pagewise]{lineno}
+% 文書の最終ページを確認
+\usepackage{lastpage}
+
+
+%%% 表示の変更 %%%
+% 無次元数など
+\newcommand{\Gr}{\mathit{Gr}}
+\newcommand{\Ma}{\mathit{Ma}}
+\newcommand{\Nu}{\mathit{Nu}}
+\newcommand{\Pe}{\mathit{Pe}}
+\renewcommand{\Pr}{\mathit{Pr}}
+% \renewcommand{\Re}{\mathit{Re}}
+\AtBeginDocument{\renewcommand{\Re}{\mathit{Re}}}
+\newcommand{\Ra}{\mathit{Ra}}
+\newcommand{\Sc}{\mathit{Sc}}
+\newcommand{\St}{\mathit{St}}
+\newcommand{\Ta}{\mathit{Ta}}
+\newcommand{\Wi}{\mathit{Wi}}
+\newcommand{\rms}{\mathrm{rms}}
+
+% 図表の番号表示を変更
+\renewcommand{\figurename}{Fig.~}
+\renewcommand{\tablename}{Table~}
+
+%==================================================
+% 著者情報
+%==================================================
+
+\newcounter{authorcount}
+
+\newcommand{\authors}{}
+\newcommand{\pendingauthor}{}
+
+%------------------------------------------
+% 著者を追加
+%------------------------------------------
+
+\newcommand{\addauthor}[3]{%
+  \stepcounter{authorcount}%
+
+  \ifodd\value{authorcount}
+    % 奇数人目：
+    % 次の著者が来るまで保留
+    \gdef\pendingauthor{{#1}{#2}{#3}}%
+  \else
+    % 偶数人目：
+    % 保留中の著者と組にして authors に追加
+    \expandafter\AddAuthorPair\pendingauthor{#1}{#2}{#3}%
+    \gdef\pendingauthor{}%
+  \fi
+}
+
+%------------------------------------------
+% 2人を1行として authors に追加
+%------------------------------------------
+
+\newcommand{\AddAuthorPair}[6]{%
+  \gappto{\authors}{%
+    \AuthorBlock{#1}{#2}{#3}%
+    &
+    \AuthorBlock{#4}{#5}{#6}%
+    \\[5em]%
+  }%
+}
+
+%------------------------------------------
+% 各著者の表示形式
+%------------------------------------------
+
+\newcommand{\AuthorBlock}[3]{%
+  \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    #1\par
+    \vspace{0.5em}
+    #2\par
+    \vspace{0.5em}
+    \href{mailto:#3}{#3}
+  \end{minipage}%
+}
+
+%------------------------------------------
+% 著者情報の出力
+%------------------------------------------
+
+\newcommand{\printauthors}{%
+  \ifnum\value{authorcount}=1
+
+    % 1 人の場合
+    \expandafter\AuthorBlock\pendingauthor
+
+  \else
+
+    \begin{tabularx}{\textwidth}{
+      >{\centering\arraybackslash}X
+      >{\centering\arraybackslash}X
+    }
+
+      % 2 人組になっている著者
+      \authors
+
+      % 奇数人数なら最後の 1 人を中央に配置
+      \ifodd\value{authorcount}
+        \multicolumn{2}{c}{%
+          \expandafter\AuthorBlock\pendingauthor
+        }%
+      \fi
+
+    \end{tabularx}
+
+  \fi
+}
+
+%==================================================
+% 表紙
+%==================================================
+
+\definecolor{titleblue}{HTML}{1F4E79}
+
+\newcommand{\makecover}{%
+  \begin{titlepage}
+    \thispagestyle{empty}
+
+    \vspace*{\fill}
+
+    \begin{center}
+
+      {\color{titleblue}\rule{\textwidth}{2pt}}
+      \\\vspace{-1.4em}
+      {\color{titleblue}\rule{\textwidth}{1pt}}
+      \\\vspace{0.7em}
+      {\LARGE\bfseries
+        \DocTitle
+        \par
+      }
+      \vspace{0.7em}
+      {\color{titleblue}\rule{\textwidth}{1pt}}
+      \\\vspace{-1.3em}
+      {\color{titleblue}\rule{\textwidth}{2pt}}
+
+      \vspace{10em}
+
+      %------------------------------------------
+      % 著者
+      %------------------------------------------
+
+      {\fontsize{14pt}{16pt}\selectfont
+        \printauthors
+      }
+
+      \vspace{15em}
+
+      {\large \DocDate}
+
+    \end{center}
+
+    \vspace*{\fill}
+
+  \end{titlepage}
+
+  % 本文を 1 ページから開始
+  \setcounter{page}{1}
+}
+
+%==================================================
+% 表紙なしの場合のタイトル
+%==================================================
+
+\newcommand{\makeinlineauthor}{%
+  \begin{center}
+
+    {\LARGE\bfseries
+      \DocTitle
+      \par
+    }
+
+    \vspace{2em}
+
+      {\fontsize{14pt}{16pt}\selectfont
+        \printauthors
+      }
+
+    \vspace{1em}
+
+    \DocDate
+
+  \end{center}
+
+  \vspace{3em}
+}
+
+%==================================================
+% タイトル・著者情報を出力
+%==================================================
+
+\newcommand{\makedocumenttitle}{%
+  \ifcover
+    \makecover
+  \else
+    \makeinlineauthor
+  \fi
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% 章見出しの再定義 %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\chpre}{第}
+\newcommand{\chpost}{章}
+\renewcommand{\contentsname}{目次}
+\newcommand{\signaryname}{記号表}
+% \renewcommand{\abstractname}{概要}
+\newcommand{\acknowledgename}{謝辞}
+\renewcommand{\bibname}{文献}
+\newcommand{\appname}{付録}
+
+%%% 英語で執筆する場合の設定
+% \jlreqsetup{
+%     appendix_heading = {
+%       chapter = {label_format = {Appendix~\thechapter .}}
+%     },
+% }
+
+
+%%% \author 等の再定義 %%%
+\def\thesis#1{\gdef\@thesis{#1}}
+\def\title#1{\gdef\@title{#1}}
+\def\date#1{\gdef\@date{#1}}
+\def\author#1{\gdef\@author{#1}}
+\def\coworker#1{\gdef\@coworker{#1}}
+\def\supervisor#1{\gdef\@supervisor{#1}}
+\def\cosupervisor#1{\gdef\@cosupervisor{#1}}
+\def\affiliation#1{\gdef\@affiliation{#1}}
+\def\laboratory#1{\gdef\@laboratory{#1}}
+\gdef\@date{\today}          %Default is today's date
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ページスタイル（柱・ノンブル）の設定 %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 通常の本文ページスタイル %%%
+% 柱とノンブルをそれぞれページ上部の左右に表示
+% ページ下部は何も表示しない
+\NewPageStyle{normal}{
+  running_head_position=top-left,   % 柱の位置
+  nombre_position=bottom-center,        % ノンブルの位置
+  mark_format={_section=
+    \underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries\thesection\quad#1\hfill}}}
+    },        % 奇数ページの柱
+  nombre={\thepage/\pageref{LastPage}}, % ノンブルの内容
+  odd_running_head=_section,        % 奇数ページの柱
+  even_running_head=_section        % 偶数ページの柱
+}
+\pagestyle{normal}
+
+%%% 最初のページスタイル %%%
+% 柱は表示しない
+\NewPageStyle{cover}{
+  nombre_position=bottom-center,        % ノンブルの位置
+  nombre={\thepage/\pageref{LastPage}} % ノンブルの内容
+}
+
+%%% 参考文献用ページスタイル %%%
+% 柱の出力が思い通りにいかない
+% \NewPageStyle{bibliography}{
+%   running_head_position=top-left,   % 柱の位置
+%   nombre_position=top-right,        % ノンブルの位置
+%   nombre={\thepage},%               % ノンブルの内容
+%   odd_running_head={\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}},        % 奇数ページの柱
+%   even_running_head={\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}        % 偶数ページの柱
+% }
+% 参考文献の定義 \biblist
+% \newcommand\biblist{%
+%   \clearpage
+%   \phantomsection % ハイパーリンクのズレを調整
+%   \renewcommand\UrlFont{\rmfamily}  % 参考文献内の URL 表示をタイプライター調にしない
+%   \nocite{*}  % \nocite{*}が有効のとき，引用していない文献も含めて全て表示
+%   \markboth{% % なぜか参考文献 5 ページ目以降で柱の出力がおかしくなるのでここで追加設定
+%   \underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}%
+%   {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}
+%   \pagestyle{bibliography}
+%   \addcontentsline{toc}{chapter}{\bibname}  % 目次に「文献」を追加
+% }
+
+%%%%%% End of This File %%%%%%

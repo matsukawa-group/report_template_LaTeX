@@ -1,0 +1,94 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%                   report_template_LaTeX
+%%%                          main.tex
+%%%   <https://github.com/matsukawa-group/report_template_LaTeX>
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 文書クラスの設定 %%%
+\documentclass[
+    paper=a4paper,      % A4 用紙サイズ
+    article,            % article 相当の文書クラス
+    fleqn,              % 数式を左寄せ
+    fontsize=11pt,      % 欧文サイズ 11 pt
+    jafontsize=11pt,    % 和文サイズ 11 pt
+    head_space=25mm,    % 天の余白
+    foot_space=25mm,    % 地の余白
+    gutter=20mm,        % のどの余白
+    fore-edge=20mm      % 小口の余白
+    ]{jlreq}            % jlreq クラスを使用
+
+%==================================================
+% パッケージの読み込み
+%==================================================
+
+\usepackage{settings}
+
+%==================================================
+% 基本設定
+%==================================================
+
+% 文書タイトル
+\newcommand{\DocTitle}{%
+  ここに文書のタイトルを入れます
+}
+
+% 日付
+\newcommand{\DocDate}{%
+  2026 年 6 月 1 日%
+}
+
+% 表紙を付けるかどうか
+\newif\ifcover
+\covertrue
+% \coverfalse
+
+%==================================================
+% 著者の登録
+%==================================================
+
+\addauthor
+  {著者名}
+  {著者の所属・学年}
+  {author@example.com}
+
+% 第二著者を追加する場合
+%
+% \addauthor
+%   {第二著者}
+%   {第二著者の所属・学年}
+%   {second@example.com}
+
+
+%==================================================
+% 本文
+%==================================================
+
+\begin{document}
+
+% \maketitle
+\makedocumenttitle
+
+\thispagestyle{cover}
+
+\tableofcontents
+
+\section{これは見出し}
+
+\subsection{これは小見出し}
+
+\subsubsection{これはさらに小さい見出し}
+
+
+%%% 文献 %%%
+% \biblist
+% 使用する bst ファイル
+% \bibliographystyle{jsme}
+% 読み込む bib ファイル
+% \bibliography{
+%     mybib_en.bib,
+%     mybib_jp.bib
+% }
+
+\end{document}
