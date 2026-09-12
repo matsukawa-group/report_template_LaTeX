@@ -30,7 +30,10 @@
 \allowdisplaybreaks
 % 文字に色を付ける
 \usepackage{xcolor}
-% コードブロック
+% 多段組
+\usepackage{multicol}
+
+%%% コードブロック %%%
 \usepackage{listings}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -44,7 +47,7 @@
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
-    basicstyle=\ttfamily,
+    basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,
     breaklines=true,
     captionpos=b,
