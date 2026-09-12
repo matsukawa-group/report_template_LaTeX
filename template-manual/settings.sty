@@ -121,13 +121,43 @@
 \newcounter{authorcount}
 
 \newcommand{\authors}{}
+\newcommand{\pendingauthor}{}
+
+%------------------------------------------
+% 著者を追加
+%------------------------------------------
 
 \newcommand{\addauthor}[3]{%
   \stepcounter{authorcount}%
+
+  \ifodd\value{authorcount}
+    % 奇数人目：
+    % 次の著者が来るまで保留
+    \gdef\pendingauthor{{#1}{#2}{#3}}%
+  \else
+    % 偶数人目：
+    % 保留中の著者と組にして authors に追加
+    \expandafter\AddAuthorPair\pendingauthor{#1}{#2}{#3}%
+    \gdef\pendingauthor{}%
+  \fi
+}
+
+%------------------------------------------
+% 2人を1行として authors に追加
+%------------------------------------------
+
+\newcommand{\AddAuthorPair}[6]{%
   \gappto{\authors}{%
     \AuthorBlock{#1}{#2}{#3}%
+    &
+    \AuthorBlock{#4}{#5}{#6}%
+    \\[5em]%
   }%
 }
+
+%------------------------------------------
+% 各著者の表示形式
+%------------------------------------------
 
 \newcommand{\AuthorBlock}[3]{%
   \begin{minipage}[t]{0.45\textwidth}
@@ -138,6 +168,38 @@
     \vspace{0.5em}
     \href{mailto:#3}{#3}
   \end{minipage}%
+}
+
+%------------------------------------------
+% 著者情報の出力
+%------------------------------------------
+
+\newcommand{\printauthors}{%
+  \ifnum\value{authorcount}=1
+
+    % 1 人の場合
+    \expandafter\AuthorBlock\pendingauthor
+
+  \else
+
+    \begin{tabularx}{\textwidth}{
+      >{\centering\arraybackslash}X
+      >{\centering\arraybackslash}X
+    }
+
+      % 2 人組になっている著者
+      \authors
+
+      % 奇数人数なら最後の 1 人を中央に配置
+      \ifodd\value{authorcount}
+        \multicolumn{2}{c}{%
+          \expandafter\AuthorBlock\pendingauthor
+        }%
+      \fi
+
+    \end{tabularx}
+
+  \fi
 }
 
 %==================================================
@@ -173,16 +235,9 @@
       % 著者
       %------------------------------------------
 
-      \ifnum\value{authorcount}=1
-        {\fontsize{14pt}{16pt}\selectfont\authors}
-      \else
-        \begin{tabularx}{\textwidth}{
-          >{\centering\arraybackslash}X
-          >{\centering\arraybackslash}X
-        }
-          \authors
-        {\fontsize{14pt}{16pt}\selectfont\authors}
-      \fi
+      {\fontsize{14pt}{16pt}\selectfont
+        \printauthors
+      }
 
       \vspace{15em}
 
@@ -212,16 +267,9 @@
 
     \vspace{2em}
 
-    \ifnum\value{authorcount}=1
-      \authors
-    \else
-      \begin{tabularx}{\textwidth}{
-        >{\centering\arraybackslash}X
-        >{\centering\arraybackslash}X
+      {\fontsize{14pt}{16pt}\selectfont
+        \printauthors
       }
-        \authors
-      \end{tabularx}
-    \fi
 
     \vspace{1em}
 
