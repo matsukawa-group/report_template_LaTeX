@@ -10,7 +10,6 @@
 \documentclass[
     paper=a4paper,      % A4 用紙サイズ
     article,            % article 相当の文書クラス
-    fleqn,              % 数式を左寄せ
     fontsize=11pt,      % 欧文サイズ 11 pt
     jafontsize=11pt,    % 和文サイズ 11 pt
     head_space=25mm,    % 天の余白
@@ -252,6 +251,76 @@
 \end{enumerate}
 \end{lstlisting}
 \end{multicols}
+
+\subsection{数式}
+\label{ssec:math}
+
+次に \LaTeX における数式の書き方について説明します．
+
+\subsubsection{基本的な数式の書き方}
+\label{sssec:math-basic}
+
+\LaTeX で文章中に数式を組み込むインライン数式の場合は，\verb|$| と \verb|$| で表示したい数式を囲って \verb|$E = mc^2$| とすると $E = mc^2$ のように出力できます．
+
+最も基本的な別行立ての数式は
+\begin{equation}
+    \pdv{u_r}{t} + (\mathbf{u}\cdot\nabla)u_r - \frac{u_\theta^2}{r} = -\frac{1}{\rho}\pdv{p}{r} + \nu\ab(\nabla^2 u_r - \frac{u_r}{r^2} - \frac{2}{r^2}\pdv{u_\theta}{\theta})
+    \label{eq:NSr}
+\end{equation}
+\begin{lstlisting}[language=TeX]
+\begin{equation}
+    \pdv{u_r}{t} + (\mathbf{u}\cdot\nabla)u_r - \frac{u_\theta^2}{r} = -\frac{1}{\rho}\pdv{p}{r} + \nu\ab(\nabla^2 u_r - \frac{u_r}{r^2} - \frac{2}{r^2}\pdv{u_\theta}{\theta})
+    \label{eq:NSr}
+\end{equation}
+\end{lstlisting}
+のように \verb|equation| 環境で記述します．
+式~\eqref{eq:NSr} の数式は \LaTeX でサポートされている最も標準的なコマンドと \href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージ，\href{https://ctan.org/pkg/fixdif}{\texttt{fixdif}} パッケージ，\href{https://ctan.org/pkg/derivative}{\texttt{derivative}} パッケージで記述しています．
+上付き添え字はキャレット \verb|^|，下付き添え字はアンダースコア \verb|_| を用いて表現します．
+したがって，$u_\theta^2$ は \verb|u_\theta^2| と書きます．
+ここで注意点として，添え字が $u_\theta^2$ のように一文字であれば問題無いのですが，$R_{ij}$ のように二文字以上の場合には $R_{ij}$ のように括弧 \verb|{}| で囲んでください．
+分数は \verb|\frac{分子}{分母}| で書きますが，インライン数式で $1/2$ のようにスラッシュで分数表記したいときは \verb|1/2| のようにスラッシュを入力すれば大丈夫です．
+表~\ref{tb:greek} のように $\rho$ や $\theta$ といったギリシャ文字も出力できるほか，$\nabla$ や $\sin$，$\log$ のような数学で使う関数の類もコマンドが存在しています（例：\verb|\nabla|, \verb|\sin|, \verb|\log|）．
+$\sin$ や $\log$ は通常アップライト体（直立体，Roman 体）で書きます．
+$sinx$ などと書くことのないように気をつけましょう．
+また，数式中で \LaTeX コマンドを使わずに変換で出した全角のθを入れている人をときどき見かけるので気をつけましょう．
+
+式~\eqref{eq:NSr} の左辺と右辺で丸括弧の大きさが異なることにも注目してください．
+左辺は特に何もしていませんが，右辺は分数がある分，縦方向に括弧の長さが必要です．
+括弧の大きさを自動で調整するコマンドとして，\verb|\ab(xxx)|コマンドがあります．
+
+
+\begin{table}[t]
+    \centering
+    \caption{ギリシャ文字の出力方法．}
+    \label{tb:greek}
+    \begin{tabular}{c|c|c|c|c} \hline\hline
+        英語名 & 大文字出力 & 大文字入力 & 小文字出力 & 小文字入力 \\ \hline
+        alpha & $A$ & \verb|A| & $\alpha$ & \verb|\alpha| \\ \hline
+        beta & $B$ & \verb|B| & $\beta$ & \verb|\beta| \\ \hline
+        gamma & $\Gamma$, $\varGamma$ & \verb|\Gamma|, \verb|\varGamma| & $\gamma$ & \verb|\gamma| \\ \hline
+        delta & $\Delta$, $\varDelta$ & \verb|\Delta|, \verb|\varDelta| & $\delta$ & \verb|\delta| \\ \hline
+        epsilon & $E$ & \verb|E| & $\epsilon$, $\varepsilon$ & \verb|\epsilon|, \verb|\varepsilon| \\ \hline
+        zeta & $Z$ & \verb|Z| & $\zeta$ & \verb|\zeta| \\ \hline
+        eta & $H$ & \verb|H| & $\eta$ & \verb|\eta| \\ \hline
+        theta & $\Theta$, $\varTheta$ & \verb|\Theta|, \verb|\varTheta| & $\theta$, $\vartheta$ & \verb|\theta|, \verb|\vartheta| \\ \hline
+        iota & $I$ & \verb|I| & $\iota$ & \verb|\iota| \\ \hline
+        kappa & $K$ & \verb|K| & $\kappa$, $\varkappa$ & \verb|\kappa|, \verb|\varkappa| \\ \hline
+        lambda & $\Lambda$, $\varLambda$ & \verb|\Lambda|, \verb|\varLambda| & $\lambda$ & \verb|\lambda| \\ \hline
+        mu & $M$ & \verb|M| & $\mu$ & \verb|\mu| \\ \hline
+        nu & $N$ & \verb|N| & $\nu$ & \verb|\nu| \\ \hline
+        xi & $\Xi$, $\varXi$ & \verb|\Xi|, \verb|\varXi| & $\xi$ & \verb|\xi| \\ \hline
+        omicron & $O$ & \verb|O| & $o$ & \verb|o| \\ \hline
+        pi & $\Pi$, $\varPi$ & \verb|\Pi|, \verb|\varPi| & $\pi$, $\varpi$ & \verb|\pi|, \verb|\varpi| \\ \hline
+        rho & $P$ & \verb|P| & $\rho$, $\varrho$ & \verb|\rho|, \verb|\varrho| \\ \hline
+        sigma & $\Sigma$, $\varSigma$ & \verb|\Sigma|, \verb|\varSigma| & $\sigma$, $\varsigma$ & \verb|\sigma|, \verb|\varsigma| \\ \hline
+        tau & $T$ & \verb|T| & $\tau$ & \verb|\tau| \\ \hline
+        upsilon & $\Upsilon$, $\varUpsilon$ & \verb|\Upsilon|, \verb|\varUpsilon| & $\upsilon$ & \verb|\upsilon| \\ \hline
+        phi & $\Phi$, $\varPhi$ & \verb|\Phi|, \verb|\varPhi| & $\phi$, $\varphi$ & \verb|\phi|, \verb|\varphi| \\ \hline
+        chi & $X$ & \verb|X| & $\chi$ & \verb|\chi| \\ \hline
+        psi & $\Psi$, $\varPsi$ & \verb|\Psi|, \verb|\varPsi| & $\psi$ & \verb|\psi| \\ \hline
+        omega & $\Omega$, $\varOmega$ & \verb|\Omega|, \verb|\varOmega| & $\omega$ & \verb|\omega| \\ \hline
+    \end{tabular}
+\end{table}
 
 
 
