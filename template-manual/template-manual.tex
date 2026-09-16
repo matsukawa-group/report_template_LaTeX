@@ -1,0 +1,472 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%                   report_template_LaTeX
+%%%                          main.tex
+%%%   <https://github.com/matsukawa-group/report_template_LaTeX>
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 文書クラスの設定 %%%
+\documentclass[
+    paper=a4paper,      % A4 用紙サイズ
+    article,            % article 相当の文書クラス
+    fontsize=11pt,      % 欧文サイズ 11 pt
+    jafontsize=11pt,    % 和文サイズ 11 pt
+    head_space=25mm,    % 天の余白
+    foot_space=25mm,    % 地の余白
+    gutter=20mm,        % のどの余白
+    fore-edge=20mm      % 小口の余白
+    ]{jlreq}            % jlreq クラスを使用
+
+%==================================================
+% パッケージの読み込み
+%==================================================
+
+\usepackage{settings}
+
+%==================================================
+% 基本設定
+%==================================================
+
+% 文書タイトル
+\newcommand{\DocTitle}{%
+  ここに文書のタイトルを入れます
+}
+
+% 日付
+\newcommand{\DocDate}{%
+  2026 年 6 月 1 日%
+}
+
+% 表紙を付けるかどうか
+\newif\ifcover
+\covertrue
+% \coverfalse
+
+%==================================================
+% 著者の登録
+%==================================================
+
+\addauthor
+  {著者名}
+  {著者の所属・学年}
+  {author@example.com}
+
+% 第二著者を追加する場合
+%
+% \addauthor
+%   {第二著者}
+%   {第二著者の所属・学年}
+%   {second@example.com}
+
+
+%==================================================
+% 本文
+%==================================================
+
+\begin{document}
+
+% \maketitle
+\makedocumenttitle
+
+\thispagestyle{cover}
+
+% 目次が不要な場合はコメントアウト
+\tableofcontents
+\clearpage
+
+\section{これは見出し}
+\label{sec:heading}
+
+\begin{lstlisting}[language=TeX]
+\section{これは見出し}
+\label{sec:heading}
+\end{lstlisting}
+
+\subsection{これは小見出し}
+\label{ssec:subheading}
+
+\begin{lstlisting}[language=TeX]
+\subsection{これは小見出し}
+\label{ssec:subheading}
+\end{lstlisting}
+
+\subsubsection{これはさらに小さい見出し}
+\label{sssec:subsubheading}
+
+\begin{lstlisting}[language=TeX]
+\subsubsection{これはさらに小さい見出し}
+\label{sssec:subsubheading}
+\end{lstlisting}
+
+\section{\LaTeX 文書の基本的な書き方}
+
+ここでは \LaTeX 文書の基本的な書き方について説明します．
+
+\subsection{コメント文・段落の変え方・強調の仕方}
+\label{ssec:paragraph}
+
+% ← これはコメント文にするコマンドです．
+% \jalipsum[1-10]{wagahai} これはダミーテキストです．
+\jalipsum[1-2]{wagahai} % ↓ 空白行を入れると改段落されます．
+
+\textbf{\color{red}{段落を変えたいときは空白行を入れます．}} % 強調のために色と太さを変えました．
+\jalipsum[3-4]{wagahai}
+
+\begin{lstlisting}[language=TeX]
+% ← これはコメント文にするコマンドです．
+% \jalipsum[1-10]{wagahai} これはダミーテキストです．
+\jalipsum[1-2]{wagahai} % ↓ 空白行を入れると改段落されます．
+
+\textbf{\color{red}{段落を変えたいときは空白行を入れます．}} % 強調のために色と太さを変えました．
+\jalipsum[3-4]{wagahai}
+\end{lstlisting}
+
+\subsection{相互参照}
+\label{ssec:reference}
+
+\LaTeX の強みの一つは相互参照が簡単にできることです．
+\LaTeX では \verb|\label{xxx}| のように \verb|xxx| という名前のラベルを定義できます．
+例えば，この節は見出しのところで
+\begin{lstlisting}[language=TeX]
+\subsection{相互参照}
+\label{ssec:reference}
+\end{lstlisting}
+としているので，この見出しを参照したいときは
+\begin{lstlisting}[language=TeX]
+第~\ref{ssec:reference}~節
+\end{lstlisting}
+とすれば「第~\ref{ssec:reference}~節」のように出力できます．
+このような相互参照は見出しだけでなく，数式や図表などあらゆる要素に対して行うことができます．
+\verb|xxx| の部分の文字列は自由に設定できるので，ジャンルごとにわかりやすいラベルをつけるといいでしょう\footnote{例：節の場合は \texttt{\textbackslash label\{sec:xxx\}}，小節の場合は \texttt{\textbackslash label\{ssec:xxx\}}，小々節の場合は \texttt{\textbackslash label\{sssec:xxx\}}，式の場合は \texttt{\textbackslash label\{eq:xxx\}}，図の場合は \texttt{\textbackslash label\{fig:xxx\}}，表の場合は \texttt{\textbackslash label\{tb:xxx\}} など，自分のわかりやすいラベルをつけるといいでしょう．ちなみにここに表示しているような脚注は \texttt{\textbackslash footnote\{脚注内の文字列\}} で出力します．}．
+また，コード中に挿入している \verb|~|（チルダ）を使用することで，この箇所での改行を防ぐことができます．
+図表や章題目などを \verb|\label{}| コマンドでラベリングし，参照する文章中で \verb|\ref{}| コマンドを使って呼び出すのが基本的な相互参照の形です．
+また，数式を参照する際は \verb|\eqref{}| コマンドの使用が一般的です．
+図表や式をラベリングしておくことで，式番号や図番号が変わったとしてもその変化に合わせて PDF ファイルの出力も変えられます．
+また，論文を書き進める途中で章や節の順番が丸ごと入れ替わるといった事態が起きても，相互参照の機能を使っていれば全く問題ありません．
+ただし，同じ名前のラベルは使用できないため，名前の重複には気をつけましょう．
+存在しないラベル名を参照してもエラーとなり，PDF ファイル中での出力は ?? となります．
+
+\subsection{強制改ページ}
+\label{ssec:pagebreak}
+
+紙面の都合で強制的に改ページしたいときは \verb|\clearpage| コマンドを使用します．
+例えば，この段落の後で \verb|\clearpage| とすれば，この段落の後で改ページされます．
+
+\clearpage
+
+\subsection{箇条書き}
+\label{ssec:list}
+
+箇条書きには番号なしのものと番号付きのものがあります．
+
+\subsubsection{番号なしの箇条書き}
+\label{sssec:itemize}
+
+番号なしの箇条書きの例として，明治大学のキャンパスと学部を挙げます．
+箇条書きは入れ子にすることもできます．
+
+\begin{multicols}{2}
+  \begin{itemize}
+    \item 和泉，駿河台キャンパス
+    \begin{itemize}
+      \item 法学部
+      \item 商学部
+      \item 政治経済学部
+      \item 文学部
+      \item 経営学部
+      \item 情報コミュニケーション学部
+    \end{itemize}
+    \item 生田キャンパス
+    \begin{itemize}
+      \item 理工学部
+      \begin{itemize}
+        \item 機械工学科
+        \item 機械情報工学科
+      \end{itemize}
+      \item 農学部
+    \end{itemize}
+    \item 中野キャンパス
+    \begin{itemize}
+      \item 国際日本学部
+      \item 総合数理学部
+    \end{itemize}
+  \end{itemize}
+  \columnbreak
+\begin{lstlisting}[language=TeX]
+\begin{itemize}
+  \item 和泉，駿河台キャンパス
+  \begin{itemize}
+    \item 法学部
+    \item 商学部
+    \item 政治経済学部
+    \item 文学部
+    \item 経営学部
+    \item 情報コミュニケーション学部
+  \end{itemize}
+  \item 生田キャンパス
+  \begin{itemize}
+    \item 理工学部
+    \begin{itemize}
+      \item 機械工学科
+      \item 機械情報工学科
+    \end{itemize}
+    \item 農学部
+  \end{itemize}
+  \item 中野キャンパス
+  \begin{itemize}
+    \item 国際日本学部
+    \item 総合数理学部
+  \end{itemize}
+\end{itemize}
+\end{lstlisting}
+\end{multicols}
+
+\vspace{-2mm}
+
+\subsubsection{番号付きの箇条書き}
+\label{sssec:enumerate}
+
+番号付きの箇条書きの例として，日本の苗字ランキングの上位を挙げます．
+番号付きの箇条書きも入れ子にすることができます．
+
+\begin{multicols}{2}
+  \begin{enumerate}
+    \item 佐藤
+    \item 鈴木
+    \item 高橋
+    \begin{enumerate}
+      \item 高橋
+      \item 髙橋
+    \end{enumerate}
+    \item 田中
+    \item 伊藤
+  \end{enumerate}
+  \columnbreak
+\begin{lstlisting}[language=TeX]
+\begin{enumerate}
+  \item 佐藤
+  \item 鈴木
+  \item 高橋
+  \begin{enumerate}
+    \item 高橋
+    \item 髙橋
+  \end{enumerate}
+  \item 田中
+  \item 伊藤
+\end{enumerate}
+\end{lstlisting}
+\end{multicols}
+
+\subsection{数式}
+\label{ssec:math}
+
+次に \LaTeX における数式の書き方について説明します．
+
+\subsubsection{基本的な数式の書き方}
+\label{sssec:math-basic}
+
+\LaTeX で文章中に数式を組み込むインライン数式の場合は，\verb|$| と \verb|$| で表示したい数式を囲って \verb|$E = mc^2$| とすると $E = mc^2$ のように出力できます．
+
+最も基本的な別行立ての数式は
+\begin{equation}
+    \pdv{u_r}{t} + (\mathbf{u}\cdot\nabla)u_r - \frac{u_\theta^2}{r} = -\frac{1}{\rho}\pdv{p}{r} + \nu\ab(\nabla^2 u_r - \frac{u_r}{r^2} - \frac{2}{r^2}\pdv{u_\theta}{\theta})
+    \label{eq:NSr}
+\end{equation}
+\begin{lstlisting}[language=TeX]
+\begin{equation}
+    \pdv{u_r}{t} + (\mathbf{u}\cdot\nabla)u_r - \frac{u_\theta^2}{r} = -\frac{1}{\rho}\pdv{p}{r} + \nu\ab(\nabla^2 u_r - \frac{u_r}{r^2} - \frac{2}{r^2}\pdv{u_\theta}{\theta})
+    \label{eq:NSr}
+\end{equation}
+\end{lstlisting}
+のように \verb|equation| 環境で記述します．
+式~\eqref{eq:NSr} の数式は \LaTeX でサポートされている最も標準的なコマンドと \href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージ，\href{https://ctan.org/pkg/fixdif}{\texttt{fixdif}} パッケージ，\href{https://ctan.org/pkg/derivative}{\texttt{derivative}} パッケージで記述しています．
+上付き添え字はキャレット \verb|^|，下付き添え字はアンダースコア \verb|_| を用いて表現します．
+したがって，$u_\theta^2$ は \verb|u_\theta^2| と書きます．
+ここで注意点として，添え字が $u_\theta^2$ のように一文字であれば問題無いのですが，$R_{ij}$ のように二文字以上の場合には $R_{ij}$ のように括弧 \verb|{}| で囲んでください．
+分数は \verb|\frac{分子}{分母}| で書きますが，インライン数式で $1/2$ のようにスラッシュで分数表記したいときは \verb|1/2| のようにスラッシュを入力すれば大丈夫です．
+表~\ref{tb:greek} のように $\rho$ や $\theta$ といったギリシャ文字も出力できるほか，$\nabla$ や $\sin$，$\log$ のような数学で使う関数の類もコマンドが存在しています（例：\verb|\nabla|, \verb|\sin|, \verb|\log|）．
+$\sin$ や $\log$ は通常アップライト体（直立体，Roman 体）で書きます．
+$sinx$ などと書くことのないように気をつけましょう．
+また，数式中で \LaTeX コマンドを使わずに変換で出した全角のθを入れている人をときどき見かけるので気をつけましょう．
+
+式~\eqref{eq:NSr} の左辺と右辺で丸括弧の大きさが異なることにも注目してください．
+左辺は特に何もしていませんが，右辺は分数がある分，縦方向に括弧の長さが必要です．
+括弧の大きさを自動で調整するコマンドとして，\verb|\left(|，\verb|\right)| コマンドがあります．
+ただし，式~\eqref{eq:NSr} では \href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージの \verb|\ab(xxx)| コマンドを使用して書いています．
+左辺第二項では速度 $\mathbf{u}$ がベクトルであるため，\textbf{Bold} 体になっています．
+これは \verb|\mathbf{u}| とすることで出力できます．
+このテンプレートでは \href{https://ctan.org/pkg/unicode-math}{\texttt{unicode-math}} を使用しているので \verb|\symbf{u}| というコマンドもサポートされています．
+ベクトルを \textbf{\textit{Bold Italic}} 体 $\symbfit{u}$ にしたい場合は \verb|\symbfit{u}| というコマンドを使用してください（第~\ref{ssec:typeface_math}~節を参照）．
+このテンプレートでは \href{https://ctan.org/pkg/bm}{\texttt{bm}} パッケージを使用していません．
+
+\begin{table}[t]
+    \centering
+    \caption{ギリシャ文字の出力方法．}
+    \label{tb:greek}
+    \begin{tabular}{c|c|c|c|c} \hline\hline
+        英語名 & 大文字出力 & 大文字入力 & 小文字出力 & 小文字入力 \\ \hline
+        alpha & $A$ & \verb|A| & $\alpha$ & \verb|\alpha| \\ \hline
+        beta & $B$ & \verb|B| & $\beta$ & \verb|\beta| \\ \hline
+        gamma & $\Gamma$, $\varGamma$ & \verb|\Gamma|, \verb|\varGamma| & $\gamma$ & \verb|\gamma| \\ \hline
+        delta & $\Delta$, $\varDelta$ & \verb|\Delta|, \verb|\varDelta| & $\delta$ & \verb|\delta| \\ \hline
+        epsilon & $E$ & \verb|E| & $\epsilon$, $\varepsilon$ & \verb|\epsilon|, \verb|\varepsilon| \\ \hline
+        zeta & $Z$ & \verb|Z| & $\zeta$ & \verb|\zeta| \\ \hline
+        eta & $H$ & \verb|H| & $\eta$ & \verb|\eta| \\ \hline
+        theta & $\Theta$, $\varTheta$ & \verb|\Theta|, \verb|\varTheta| & $\theta$, $\vartheta$ & \verb|\theta|, \verb|\vartheta| \\ \hline
+        iota & $I$ & \verb|I| & $\iota$ & \verb|\iota| \\ \hline
+        kappa & $K$ & \verb|K| & $\kappa$, $\varkappa$ & \verb|\kappa|, \verb|\varkappa| \\ \hline
+        lambda & $\Lambda$, $\varLambda$ & \verb|\Lambda|, \verb|\varLambda| & $\lambda$ & \verb|\lambda| \\ \hline
+        mu & $M$ & \verb|M| & $\mu$ & \verb|\mu| \\ \hline
+        nu & $N$ & \verb|N| & $\nu$ & \verb|\nu| \\ \hline
+        xi & $\Xi$, $\varXi$ & \verb|\Xi|, \verb|\varXi| & $\xi$ & \verb|\xi| \\ \hline
+        omicron & $O$ & \verb|O| & $o$ & \verb|o| \\ \hline
+        pi & $\Pi$, $\varPi$ & \verb|\Pi|, \verb|\varPi| & $\pi$, $\varpi$ & \verb|\pi|, \verb|\varpi| \\ \hline
+        rho & $P$ & \verb|P| & $\rho$, $\varrho$ & \verb|\rho|, \verb|\varrho| \\ \hline
+        sigma & $\Sigma$, $\varSigma$ & \verb|\Sigma|, \verb|\varSigma| & $\sigma$, $\varsigma$ & \verb|\sigma|, \verb|\varsigma| \\ \hline
+        tau & $T$ & \verb|T| & $\tau$ & \verb|\tau| \\ \hline
+        upsilon & $\Upsilon$, $\varUpsilon$ & \verb|\Upsilon|, \verb|\varUpsilon| & $\upsilon$ & \verb|\upsilon| \\ \hline
+        phi & $\Phi$, $\varPhi$ & \verb|\Phi|, \verb|\varPhi| & $\phi$, $\varphi$ & \verb|\phi|, \verb|\varphi| \\ \hline
+        chi & $X$ & \verb|X| & $\chi$ & \verb|\chi| \\ \hline
+        psi & $\Psi$, $\varPsi$ & \verb|\Psi|, \verb|\varPsi| & $\psi$ & \verb|\psi| \\ \hline
+        omega & $\Omega$, $\varOmega$ & \verb|\Omega|, \verb|\varOmega| & $\omega$ & \verb|\omega| \\ \hline
+    \end{tabular}
+\end{table}
+
+\clearpage
+\subsubsection{\texttt{physics2} パッケージ}
+\label{ssec:physics2}
+
+\begin{tcolorbox}[title={数式入力を簡略化するコマンド例（\texttt{physics2}, \texttt{fixdif}, \texttt{derivative} パッケージ）}]
+    \begin{tabular}{lll}
+        【括弧関連（\verb|physics2| パッケージの \verb|ab| モジュール）】\\
+        \textgt{コマンド}  & \textgt{出力} \\ \hline
+        \rule[10pt]{0pt}{10pt}\rule[-16pt]{0pt}{16pt}
+        \verb|\ab(\frac{1}{2})|, \verb|\pab{\frac{1}{2}}|   & $\displaystyle\ab(\frac{1}{2})$, $\displaystyle\pab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\ab[\frac{1}{2}]|, \verb|\bab{\frac{1}{2}}|   & $\displaystyle\ab[\frac{1}{2}]$, $\displaystyle\bab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\ab\{\frac{1}{2}\}|, \verb|\Bab{\frac{1}{2}}|   & $\displaystyle\ab\{\frac{1}{2}\}$, $\displaystyle\Bab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\ab<\frac{1}{2}>|, \verb|\aab{\frac{1}{2}}|   & $\displaystyle\ab<\frac{1}{2}>$, $\displaystyle\aab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb@\ab|\frac{1}{2}|@, \verb|\vab{\frac{1}{2}}|   & $\displaystyle\ab|\frac{1}{2}|$, $\displaystyle\vab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb@\ab\|\frac{1}{2}\|@, \verb|\Vab{\frac{1}{2}}|   & $\displaystyle\ab\|\frac{1}{2}\|$, $\displaystyle\Vab{\frac{1}{2}}$ \\
+    \end{tabular}
+    \tcblower
+    \begin{tabular}{ll}
+        【微積分関係（\verb|fixdif|, \verb|derivative| パッケージ）】\\
+        \textgt{コマンド}  & \textgt{出力} \\ \hline
+        \rule[-10pt]{0pt}{10pt}
+        \verb|\d x|, \verb|\odif{x}|, \verb|\odif{x,y,z}|   & $\d x$, $\odif{x}$, $\odif{x,y,z}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\odv{}{x}|, \verb|\odv{f}{x}|, \verb|\odv[order=n]{f}{x}|  & $\displaystyle\odv{}{x}$, $\displaystyle\odv{f}{x}$, $\displaystyle\odv[order=n]{f}{x}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\pdv{}{x}|, \verb|\pdv{f}{x}|, \verb|\pdv{f}{x,y}|, \verb|\odv[order=n]{f}{x}|  & $\displaystyle\pdv{}{x}$, $\displaystyle\pdv{f}{x}$, $\displaystyle\pdv{f}{x,y}$, $\displaystyle\pdv[order=n]{f}{x}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\mdv{}{x}|, \verb|\mdv{f}{x}|, \verb|\mdv[order=n]{f}{x}|  & $\displaystyle\mdv{}{x}$, $\displaystyle\mdv{f}{x}$, $\displaystyle\mdv[order=n]{f}{x}$ \\
+    \end{tabular}
+\end{tcolorbox}
+
+複雑な数式は書くのも大変ですしミスの元になります．
+また，数式のコードが長くなるとエラーの原因を探すのも難しくなります．
+できるだけ数式を簡単に書くためのツールとして \href{https://ctan.org/pkg/physics}{\texttt{physics}} パッケージが開発され，現在まで広く使われています．
+ただ，\href{https://ctan.org/pkg/physics}{\texttt{physics}} パッケージはいくつかの問題点を抱えており，最近は \href{https://ctan.org/pkg/physics}{\texttt{physics}} パッケージの代替となる \href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージが開発されています．
+\href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージは現在も開発途上のパッケージであるため，使い方は公式ドキュメントをよく読んでください．
+\href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージでは常微分・偏微分用のコマンドはサポートされていないので，このテンプレートでは \href{https://ctan.org/pkg/fixdif}{\texttt{fixdif}} パッケージと \href{https://ctan.org/pkg/derivative}{\texttt{derivative}} パッケージを併せて使用しています．
+例えば，$\pdv{f}{x}$ を出力するのに，通常の \LaTeX コマンドだと \verb|$\frac{\partial f}{\partial x}$| と入力しなければいけませんが，\href{https://ctan.org/pkg/derivative}{\texttt{derivative}} パッケージでは \verb|$\pdv{f}{x}$| だけで済みます．
+また，微積分で使用する $\d$ は物理量の $d$ と区別するために直立体で表記することが推奨されています．
+\href{https://ctan.org/pkg/fixdif}{\texttt{fixdif}} パッケージのコマンドで $\d x$ と出力するには \verb|\d x| と入力します．
+
+\subsubsection{複数行に亘る数式の書き方}
+\label{sssec:math-multiline}
+
+複数の数式を並べる場合は \verb|align| 環境を使いましょう．
+\begin{align}
+    a^2 &= b^2 + c^2 - 2bc\cos A \label{eq:cosA} \\
+    b^2 &= c^2 + a^2 - 2ca\cos B \label{eq:cosB} \\
+    c^2 &= a^2 + b^2 - 2ab\cos C \label{eq:cosC}
+\end{align}
+\begin{lstlisting}[language=TeX]
+\begin{align}
+    a^2 &= b^2 + c^2 - 2bc\cos A \label{eq:cosA} \\
+    b^2 &= c^2 + a^2 - 2ca\cos B \label{eq:cosB} \\
+    c^2 &= a^2 + b^2 - 2ab\cos C \label{eq:cosC}
+\end{align}
+\end{lstlisting}
+\verb|align| 環境では \verb|&| の位置で揃えるように制御しています．
+式~\eqref{eq:cosA}--\eqref{eq:cosC} は $=$ の前に \verb|&| を置いているので，3 式の位置は $=$ の直前で揃っていることになります．
+\verb|align| 環境を使えば
+\begin{align}
+    \sin 2\alpha &= \sin(\alpha + \alpha) \notag \\
+    &= \sin\alpha\cos\alpha + \cos\alpha\sin\alpha \notag \\
+    &= 2\sin\alpha\cos\alpha
+    \label{eq:double-sin}
+\end{align}
+\begin{lstlisting}[language=TeX]
+\begin{align}
+    \sin 2\alpha &= \sin(\alpha + \alpha) \notag \\
+    &= \sin\alpha\cos\alpha + \cos\alpha\sin\alpha \notag \\
+    &= 2\sin\alpha\cos\alpha
+    \label{eq:double-sin}
+\end{align}
+\end{lstlisting}
+のように途中式も入れられます．
+式番号を振らなくていい行は \verb|\notag| コマンドを使用します．
+\begin{align}
+    \varepsilon\left.\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right|_{z=0} &+ \varepsilon^2\left[\pdv[order=2]{\tilde{\phi}_2}{t} + g\pdv{\tilde{\phi}_2}{z} + \tilde{\eta}_1\pdv{}{z}\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right. \notag \\
+    &\left.\left.+ \pdv{}{t}\ab\{\ab(\pdv{\tilde{\phi}_1}{x}) + \ab(\pdv{\tilde{\phi}_1}{z})^2\}\right]\right|_{z=0} = 0
+    \label{eq:multiple-lines}
+\end{align}
+\begin{lstlisting}[language=TeX]
+\begin{align}
+    \varepsilon\left.\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right|_{z=0} &+ \varepsilon^2\left[\pdv[order=2]{\tilde{\phi}_2}{t} + g\pdv{\tilde{\phi}_2}{z} + \tilde{\eta}_1\pdv{}{z}\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right. \notag \\
+    &\left.\left.+ \pdv{}{t}\ab\{\ab(\pdv{\tilde{\phi}_1}{x}) + \ab(\pdv{\tilde{\phi}_1}{z})^2\}\right]\right|_{z=0} = 0
+    \label{eq:multiple-lines}
+\end{align}
+\end{lstlisting}
+式~\eqref{eq:multiple-lines} は式の途中で改行を挟む場合の処理方法を示しています．
+注目すべき箇所は大括弧 $[\quad]$ の途中で改行を挟んでいる点，代入記法として $|_{z=0}$ を使用している点の二箇所です．
+一つの行内で \verb|\left| コマンドに対応する \verb|\right| コマンドが無いとエラーとなります．
+大括弧 $[\quad]$ 内で改行する際は一行目で \verb|\left[| に対して \verb|\right.| を使用し，二行目で \verb|\right]| に対して \verb|\left.| を使用することで対処しています．
+\verb|\left.| と \verb|\right.| は何も出力されません．
+\verb|\left| または \verb|\right| に対応するものを用意するために使用します．
+同様に，代入記法としての $|_{z=0}$ は \verb"\right|_{z=0}" に対して \verb|\left.| を使用しています．
+
+場合分けのある数式は \verb|cases| 環境が便利です．
+式~\eqref{eq:Kronecker} は Kronecker のデルタです．
+\begin{equation}
+    \delta_{ij} = 
+    \begin{cases}
+        1, & i = j \\
+        0, & i \neq j
+    \end{cases}
+    \label{eq:Kronecker}
+\end{equation}
+\begin{lstlisting}[language=TeX]
+\begin{equation}
+    \delta_{ij} = 
+    \begin{cases}
+        1, & i = j \\
+        0, & i \neq j
+    \end{cases}
+    \label{eq:Kronecker}
+\end{equation}
+\end{lstlisting}
+
+
+
+
+
+%%% 文献 %%%
+% \biblist
+% 使用する bst ファイル
+% \bibliographystyle{jsme}
+% 読み込む bib ファイル
+% \bibliography{
+%     mybib_en.bib,
+%     mybib_jp.bib
+% }
+
+\end{document}
