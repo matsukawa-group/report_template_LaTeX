@@ -469,11 +469,20 @@ $sinx$ などと書くことのないように気をつけましょう．
 
 ここでは図を 1 枚だけ配置する方法を紹介します．
 
+%%% 図を 1 枚だけ配置するときはこれをコピーアンドペーストすればよい．
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.6\columnwidth]{figure/tiger.pdf}
+    \caption{Please write the figure caption here.}
+    \label{fig:one_figure}
+\end{figure}
+%%%
+
 \begin{lstlisting}[language=TeX]
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.5\columnwidth]{example-image}
-    \caption{1枚の図．}
+    \includegraphics[width=0.6\columnwidth]{example-image}
+    \caption{Please write the figure caption here.}
     \label{fig:one_figure}
 \end{figure}
 \end{lstlisting}
@@ -522,12 +531,144 @@ $sinx$ などと書くことのないように気をつけましょう．
     \end{tabular}
 \end{tcolorbox}
 
-%%% 図を 1 枚だけ配置するときはこれをコピーアンドペーストすればよい．
+\subsubsection{図を複数枚配置する方法}
+\label{sssec:multiple}
+
+関連する図（パネル）を複数枚配置するときは \href{https://ctan.org/pkg/subcaption}{\texttt{subcaption}} パッケージを使いましょう\footnote{\href{https://ctan.org/pkg/subfigure}{\texttt{subfigure}} パッケージや \href{https://ctan.org/pkg/subfig}{\texttt{subfig}} パッケージは古いので非推奨です．}．
+このテンプレートでは \verb|settings.sty| 内で読み込んでいます．
+文章中では \verb|subfigure| 環境に入れて並べます．
+例えば 2 枚の図を横に並べて配置したいときは図~\ref{fig:two_figures}のようになります．
+ここでは \verb|\hfill| を使って図と図の間の空白を設定していますが，\verb|\hspace{3mm}| のように設定しても構いません．
+\verb|\hspace{3mm}| の場合，水平方向に$\SI{3}{\milli\meter}$の空白ができます．
+3 枚のパネルを横に並べたいときも同様で，図~\ref{fig:three_figures}のようになります．
+関連するパネルを横だけでなく縦方向にも配置したいときは，図~\ref{fig:four_figures}のように横並びの \verb|\columnwidth| の合計が大きくなりすぎると自動的に縦に配列してくれます．
+ここでは縦方向のスペースを確保するために \verb|\vspace{5mm}| を挿入しています．
+
+\begin{tcolorbox}[title={図のラベルの参照方法}]
+    \begin{tabular}{ll}
+        \textgt{入力}     & \textgt{出力} \\ \hline
+        \verb|\ref{fig:one_figure}|                                                 & \ref{fig:one_figure} \\
+        \verb|\ref{fig:two_figures}|                                                & \ref{fig:two_figures} \\
+        \verb|\ref{subfig:two_figures_a}|                                           & \ref{subfig:two_figures_a} \\
+        \verb|\ref{fig:two_figures}(\subref{subfig:two_figures_a})|                 & \ref{fig:two_figures}(\subref{subfig:two_figures_a}) \\
+        \verb|(\subref{subfig:two_figures_a}, \subref{subfig:two_figures_b})|       & (\subref{subfig:two_figures_a}, \subref{subfig:two_figures_b}) \\
+        \verb|(\subref{subfig:four_figures_a}--\subref{subfig:four_figures_c})|    & (\subref{subfig:four_figures_a}--\subref{subfig:four_figures_c})
+    \end{tabular}
+\end{tcolorbox}
+
+また，\verb|subfigure| 環境を使うことでそれぞれのパネルにラベルを付けることができます．
+参照時には \verb|\ref{fig:two_figures}| と入力すると \ref{fig:two_figures} のように図全体の番号のみ，\verb|\subref{subfig:four_figures_a}| と入力すると \subref{subfig:two_figures_a} のようにパネルの番号のみが出力されます．
+図~\ref{fig:two_figures} のように出力したい場合は \verb|図~\ref{fig:two_figures}| とすればよいですが，仮に図~\ref{fig:two_figures}(\subref{subfig:two_figures_a}) のように出力したい場合は \verb|図~\ref{fig:two_figures}(\subref{subfig:two_figures_a})| とします．
+このとき，\verb|\subref{}| 前後の括弧 \verb|()| を忘れないでください．
+仮に \verb|\ref{subfig:two_figures_a}| のようにパネルを \verb|\ref{}| コマンドで直接指定してあげると \ref{subfig:two_figures_a} のように図番号とパネル番号が括弧無しで出力されます．
+括弧をデフォルトで出力するような設定もできますが，図~\ref{fig:two_figures}(\subref{subfig:two_figures_a}, \subref{subfig:two_figures_b}) や図~\ref{fig:four_figures}(\subref{subfig:four_figures_a}--\subref{subfig:four_figures_c}) のように複数のパネルを指定するときに不便なので括弧を外してあります．
+もしデフォルトで括弧を出力する設定に変更したい場合は \verb|settings.sty| 内でコメントアウトしている \verb|\renewcommand{\thesubfigure}{(\alph{subfigure})}| を有効化してください．
+
+\begin{lstlisting}[language=TeX]
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.5\columnwidth]{figure/tiger.pdf}
-    \caption{1枚の図．}
-    \label{fig:one_figure}
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-a}
+        \caption{Left figure caption.}
+        \label{subfig:two_figures_a}
+    \end{subfigure}
+    \hfill % ここで空白を入れると図が適切に配置される
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-b}
+        \caption{Right figure caption.}
+        \label{subfig:two_figures_b}
+    \end{subfigure}
+    \caption{Two figures placed side by side.}
+    \label{fig:two_figures}
+\end{figure}
+\end{lstlisting}
+
+%%% 図を 2 枚横並びで配置するときはこれをコピーアンドペーストすればよい．
+\begin{figure}[t]
+    \centering
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-a}
+        \caption{Left figure caption.}
+        \label{subfig:two_figures_a}
+    \end{subfigure}
+    \hfill % ここで空白を入れると図が適切に配置される
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-b}
+        \caption{Right figure caption.}
+        \label{subfig:two_figures_b}
+    \end{subfigure}
+    \caption{Two figures placed side by side.}
+    \label{fig:two_figures}
+\end{figure}
+%%%
+
+%%% 図を 3 枚横並びで配置するときはこれをコピーアンドペーストすればよい．
+\begin{figure}[t]
+    \centering
+    \begin{subfigure}{0.32\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-a}
+        \caption{Left figure caption.}
+        \label{subfig:three_figures_a}
+    \end{subfigure}
+    \hfill % ここで空白を入れると図が適切に配置される
+    \begin{subfigure}{0.32\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-b}
+        \caption{Center figure caption.}
+        \label{subfig:three_figures_b}
+    \end{subfigure}
+    \hfill % ここで空白を入れると図が適切に配置される
+    \begin{subfigure}{0.32\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-c}
+        \caption{Right figure caption.}
+        \label{subfig:three_figures_c}
+    \end{subfigure}
+    \caption{Three figures placed side by side.}
+    \label{fig:three_figures}
+\end{figure}
+%%%
+
+%%% 図を 4 枚上下左右に配置するときはこれをコピーアンドペーストすればよい．
+\begin{figure}[t]
+    \centering
+    % 上の行
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-a}
+        \caption{Upper-left figure caption.}
+        \label{subfig:four_figures_a}
+    \end{subfigure}
+    \hfill % 水平方向のスペース
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-b}
+        \caption{Upper-right figure caption.}
+        \label{subfig:four_figures_b}
+    \end{subfigure}
+
+    \vspace{5mm} % 縦方向のスペース
+    % 下の行
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-c}
+        \caption{Lower-left figure caption.}
+        \label{subfig:four_figures_c}
+    \end{subfigure}
+    \hfill % 水平方向のスペース
+    \begin{subfigure}{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{example-image-c}
+        \caption{Lower-right figure caption.}
+        \label{subfig:four_figures_c2}
+    \end{subfigure}
+    \caption{Four figures placed in a $2 times 2$ grid.}
+    \label{fig:four_figures}
 \end{figure}
 %%%
 
