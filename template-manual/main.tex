@@ -292,8 +292,13 @@ $sinx$ などと書くことのないように気をつけましょう．
 
 式~\eqref{eq:NSr} の左辺と右辺で丸括弧の大きさが異なることにも注目してください．
 左辺は特に何もしていませんが，右辺は分数がある分，縦方向に括弧の長さが必要です．
-括弧の大きさを自動で調整するコマンドとして，\verb|\ab(xxx)|コマンドがあります．
-
+括弧の大きさを自動で調整するコマンドとして，\verb|\left(|，\verb|\right)| コマンドがあります．
+ただし，式~\eqref{eq:NSr} では \href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージの \verb|\ab(xxx)| コマンドを使用して書いています．
+左辺第二項では速度 $\mathbf{u}$ がベクトルであるため，\textbf{Bold} 体になっています．
+これは \verb|\mathbf{u}| とすることで出力できます．
+このテンプレートでは \href{https://ctan.org/pkg/unicode-math}{\texttt{unicode-math}} を使用しているので \verb|\symbf{u}| というコマンドもサポートされています．
+ベクトルを \textbf{\textit{Bold Italic}} 体 $\symbfit{u}$ にしたい場合は \verb|\symbfit{u}| というコマンドを使用してください（第~\ref{ssec:typeface_math}~節を参照）．
+このテンプレートでは \href{https://ctan.org/pkg/bm}{\texttt{bm}} パッケージを使用していません．
 
 \begin{table}[t]
     \centering
@@ -327,6 +332,55 @@ $sinx$ などと書くことのないように気をつけましょう．
         omega & $\Omega$, $\varOmega$ & \verb|\Omega|, \verb|\varOmega| & $\omega$ & \verb|\omega| \\ \hline
     \end{tabular}
 \end{table}
+
+\clearpage
+\subsection{\texttt{physics2} パッケージ}
+\label{ssec:physics2}
+
+\begin{tcolorbox}[title={数式入力を簡略化するコマンド例（\texttt{physics2}, \texttt{fixdif}, \texttt{derivative} パッケージ）}]
+    \begin{tabular}{lll}
+        【括弧関連（\verb|physics2| パッケージの \verb|ab| モジュール）】\\
+        \textgt{コマンド}  & \textgt{出力} \\ \hline
+        \rule[10pt]{0pt}{10pt}\rule[-16pt]{0pt}{16pt}
+        \verb|\ab(\frac{1}{2})|, \verb|\pab{\frac{1}{2}}|   & $\displaystyle\ab(\frac{1}{2})$, $\displaystyle\pab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\ab[\frac{1}{2}]|, \verb|\bab{\frac{1}{2}}|   & $\displaystyle\ab[\frac{1}{2}]$, $\displaystyle\bab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\ab\{\frac{1}{2}\}|, \verb|\Bab{\frac{1}{2}}|   & $\displaystyle\ab\{\frac{1}{2}\}$, $\displaystyle\Bab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\ab<\frac{1}{2}>|, \verb|\aab{\frac{1}{2}}|   & $\displaystyle\ab<\frac{1}{2}>$, $\displaystyle\aab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb@\ab|\frac{1}{2}|@, \verb|\vab{\frac{1}{2}}|   & $\displaystyle\ab|\frac{1}{2}|$, $\displaystyle\vab{\frac{1}{2}}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb@\ab\|\frac{1}{2}\|@, \verb|\Vab{\frac{1}{2}}|   & $\displaystyle\ab\|\frac{1}{2}\|$, $\displaystyle\Vab{\frac{1}{2}}$ \\
+    \end{tabular}
+    \tcblower
+    \begin{tabular}{ll}
+        【微積分関係（\verb|fixdif|, \verb|derivative| パッケージ）】\\
+        \textgt{コマンド}  & \textgt{出力} \\ \hline
+        \rule[-10pt]{0pt}{10pt}
+        \verb|\d x|, \verb|\odif{x}|, \verb|\odif{x,y,z}|   & $\d x$, $\odif{x}$, $\odif{x,y,z}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\odv{}{x}|, \verb|\odv{f}{x}|, \verb|\odv[order=n]{f}{x}|  & $\displaystyle\odv{}{x}$, $\displaystyle\odv{f}{x}$, $\displaystyle\odv[order=n]{f}{x}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\pdv{}{x}|, \verb|\pdv{f}{x}|, \verb|\pdv{f}{x,y}|, \verb|\odv[order=n]{f}{x}|  & $\displaystyle\pdv{}{x}$, $\displaystyle\pdv{f}{x}$, $\displaystyle\pdv{f}{x,y}$, $\displaystyle\pdv[order=n]{f}{x}$ \\
+        \rule[-16pt]{0pt}{16pt}
+        \verb|\mdv{}{x}|, \verb|\mdv{f}{x}|, \verb|\mdv[order=n]{f}{x}|  & $\displaystyle\mdv{}{x}$, $\displaystyle\mdv{f}{x}$, $\displaystyle\mdv[order=n]{f}{x}$ \\
+    \end{tabular}
+\end{tcolorbox}
+
+複雑な数式は書くのも大変ですしミスの元になります．
+また，数式のコードが長くなるとエラーの原因を探すのも難しくなります．
+できるだけ数式を簡単に書くためのツールとして \href{https://ctan.org/pkg/physics}{\texttt{physics}} パッケージが開発され，現在まで広く使われています．
+ただ，\href{https://ctan.org/pkg/physics}{\texttt{physics}} パッケージはいくつかの問題点を抱えており，最近は \href{https://ctan.org/pkg/physics}{\texttt{physics}} パッケージの代替となる \href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージが開発されています．
+\href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージは現在も開発途上のパッケージであるため，使い方は公式ドキュメントをよく読んでください．
+\href{https://ctan.org/pkg/physics2}{\texttt{physics2}} パッケージでは常微分・偏微分用のコマンドはサポートされていないので，このテンプレートでは \href{https://ctan.org/pkg/fixdif}{\texttt{fixdif}} パッケージと \href{https://ctan.org/pkg/derivative}{\texttt{derivative}} パッケージを併せて使用しています．
+例えば，$\pdv{f}{x}$ を出力するのに，通常の \LaTeX コマンドだと \verb|$\frac{\partial f}{\partial x}$| と入力しなければいけませんが，\href{https://ctan.org/pkg/derivative}{\texttt{derivative}} パッケージでは \verb|$\pdv{f}{x}$| だけで済みます．
+また，微積分で使用する $\d$ は物理量の $d$ と区別するために直立体で表記することが推奨されています．
+\href{https://ctan.org/pkg/fixdif}{\texttt{fixdif}} パッケージのコマンドで $\d x$ と出力するには \verb|\d x| と入力します．
+また，常微分の記法としては \verb|derivative| パッケージの \verb|\odv| コマンドを使用します．
+
+
 
 
 
