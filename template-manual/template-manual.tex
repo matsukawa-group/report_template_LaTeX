@@ -470,14 +470,12 @@ $sinx$ などと書くことのないように気をつけましょう．
 ここでは図を 1 枚だけ配置する方法を紹介します．
 
 \begin{lstlisting}[language=TeX]
-\begin{equation}
-    \delta_{ij} = 
-    \begin{cases}
-        1, & i = j \\
-        0, & i \neq j
-    \end{cases}
-    \label{eq:Kronecker}
-\end{equation}
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.5\columnwidth]{example-image}
+    \caption{1枚の図．}
+    \label{fig:one_figure}
+\end{figure}
 \end{lstlisting}
 
 図を配置するときは \verb|figure| 環境で図を自動配置し，\verb|\includegraphics| で図を挿入します（図~\ref{fig:one_figure}のコードを参照）．
