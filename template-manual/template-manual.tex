@@ -455,8 +455,83 @@ $sinx$ などと書くことのないように気をつけましょう．
 \end{equation}
 \end{lstlisting}
 
+\section{図表の配置}
+\label{sec:figure-table}
 
+\LaTeX で図や表を挿入するときのコマンドは初心者には覚えにくいです．
+また，インターネットで検索したものを継ぎ接ぎした結果，何が何だかよくわからないコードができあがるということがよく起きるのでこのファイルからコピーアンドペーストすれば問題ないようにしておきました．
 
+\subsection{図の配置}
+\label{ssec:figure}
+
+\subsubsection{図を1枚だけ配置する方法}
+\label{sssec:figure_sigle}
+
+ここでは図を 1 枚だけ配置する方法を紹介します．
+
+\begin{lstlisting}[language=TeX]
+\begin{equation}
+    \delta_{ij} = 
+    \begin{cases}
+        1, & i = j \\
+        0, & i \neq j
+    \end{cases}
+    \label{eq:Kronecker}
+\end{equation}
+\end{lstlisting}
+
+図を配置するときは \verb|figure| 環境で図を自動配置し，\verb|\includegraphics| で図を挿入します（図~\ref{fig:one_figure}のコードを参照）．
+\verb|figure| のオプション \verb|[]| の中にある文字は出力する場所を示します．
+\begin{itemize}
+    \item \verb|t|\quad ページ上部（\textbf{t}op）に図を出力
+    \item \verb|b|\quad ページ下部（\textbf{b}ottom）に図を出力
+    \item \verb|p|\quad 単独ページ（\textbf{p}age）に図を出力
+    \item \verb|h|\quad できるだけその位置（\textbf{h}ere）に図を出力
+    \item \verb|H|\quad 必ずその位置（\textbf{H}ere）に図を出力（\href{https://ctan.org/pkg/float}{\texttt{float}} パッケージを必要とする）
+\end{itemize}
+学位論文中の図は原則ページ上部に配置するのでこの \verb|tex| ファイル中では \verb|[t]| に設定してあります．
+皆さんはこのままコピーしてください．
+\verb|\columnwidth| は現在のコラムのテキスト幅を指しており，\verb|[width=0.5\columnwidth]| と設定することで，テキスト幅の半分の横幅で図を挿入できます．
+図の大きさの指定に関してよく使うコマンドをテキストボックスにまとめてあります．
+\verb|\textwidth|，\verb|\columnwidth|，\verb|\linewidth| はよく似たコマンドですが，二段組の論文の場合はそれぞれの段の列幅が \verb|\columnwidth| になり，\verb|\linewidth| はリストなどの環境下での行の長さで臨機応変に対応します．
+これらは文書内のある長さに対して相対的に図の大きさを決定する方法でしたが，\verb|width=25mm| のように絶対的な長さも指定できます．
+\verb|\centering| は図を中央寄せするコマンドです\footnote{図などを中央寄せする際に \texttt{\textbackslash begin\{center\}} で始まる \texttt{center} 環境を使うのは非推奨です．}．
+
+また，コードにもあるように \verb|\label{}| コマンドを挿入することでラベルを設定できます．
+ここでは \verb|\label{fig:one_figure}| としており，ラベル参照時に図であることがわかるよう \verb|fig:| を入れています．
+ご自身の論文の内容に合わせてキャプションやラベルは変更してください．
+文章中で引用する際は \verb|図~\ref{fig:one_figure}| のように書きます．
+すると図~\ref{fig:one_figure}のように出力されます．
+ハイパーリンクも埋め込まれているので該当する図が遠く離れた位置にあっても便利です．
+ここで「図」と番号の間にチルダ \verb|~| を入れているのはここでの改行を防止を目的としています．
+
+\begin{tcolorbox}[title={\texttt{\textbackslash includegraphics} で図の大きさの指定によく使うコマンド}]
+    【指定するもの】\\
+    \begin{tabular}{lll}
+        \textgt{コマンド}    & \textgt{意味}  & \textgt{使用例} \\ \hline
+        \verb|width|    & 画像の幅          & \verb|width=0.5\textwidth| \\
+        \verb|height|   & 画像の高さ        & \verb|height=0.1\textheight|\\
+        \verb|scale|    & 画像のスケール    & \verb|scale=0.5|
+    \end{tabular}
+    \tcblower
+    【長さに関するコマンド】\\
+    \begin{tabular}{ll}
+        \textgt{コマンド}   & \textgt{意味} \\ \hline
+        \verb|\textwidth|   & テキストエリアの幅 \\
+        \verb|\textheight|  & テキストエリアの高さ \\
+        \verb|\columnwidth| & テキスト列の幅 \\
+        \verb|\linewidth|   & 現在の環境内での行の長さ
+    \end{tabular}
+\end{tcolorbox}
+
+%%% 図を 1 枚だけ配置するときはこれをコピーアンドペーストすればよい．
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.5\columnwidth]{example-image}
+    \caption{1枚の図．}
+    \label{fig:one_figure}
+\end{figure}
+%%%
 
 
 %%% 文献 %%%
