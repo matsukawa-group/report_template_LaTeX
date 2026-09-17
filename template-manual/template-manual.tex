@@ -301,7 +301,7 @@ $sinx$ などと書くことのないように気をつけましょう．
 左辺第二項では速度 $\mathbf{u}$ がベクトルであるため，\textbf{Bold} 体になっています．
 これは \verb|\mathbf{u}| とすることで出力できます．
 このテンプレートでは \href{https://ctan.org/pkg/unicode-math}{\texttt{unicode-math}} を使用しているので \verb|\symbf{u}| というコマンドもサポートされています．
-ベクトルを \textbf{\textit{Bold Italic}} 体 $\symbfit{u}$ にしたい場合は \verb|\symbfit{u}| というコマンドを使用してください（第~\ref{ssec:typeface_math}~節を参照）．
+ベクトルを \textbf{\textit{Bold Italic}} 体 $\symbfit{u}$ にしたい場合は \verb|\symbfit{u}| というコマンドを使用してください．
 このテンプレートでは \href{https://ctan.org/pkg/bm}{\texttt{bm}} パッケージを使用していません．
 
 \begin{table}[t]
@@ -847,6 +847,97 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
     \end{tabular}
 \end{tcolorbox}
 
+\section{定理環境・かっこいい枠}
+\label{sec:theorem-box}
+
+\subsection{定理環境}
+\label{ssec:theorem}
+
+数学や物理の定理や法則を示すための定理環境は以下のものが使えます．
+
+\begin{theorem}
+ここには定理の内容を書きます．
+\end{theorem}
+
+\begin{theorem}[定理の名前]
+\label{thm:example}
+定理も相互参照可能です．
+\end{theorem}
+\begin{lstlisting}[language=TeX]
+\begin{theorem}[定理の名前]
+\label{thm:example}
+定理も相互参照可能です．
+\end{theorem}
+\end{lstlisting}
+
+定理~\ref{thm:example} に関して，私は真に驚くべき証明を見つけたが，この余白はそれを書くには狭すぎる．
+
+\begin{corollary}
+ここには系の内容を書きます．
+\end{corollary}
+
+\begin{lemma}
+ここには補題の内容を書きます．
+\end{lemma}
+
+\begin{definition}
+ここには定義の内容を書きます．
+\end{definition}
+
+\begin{example}
+ここには例の内容を書きます．
+\end{example}
+
+\begin{remark}
+ここには注意の内容を書きます．
+\end{remark}
+
+\subsection{かっこいい枠}
+\label{ssec:frame}
+
+定理環境としても使えるかっこいい枠を \href{https://ctan.org/pkg/tcolorbox}{\texttt{tcolorbox}} パッケージで作成できます．
+標準の色はグレーです．
+毎回色を変えるのは面倒なので，このレポートテンプレートでは枠の色に青・赤・緑の 3 色を用意しました．
+
+\begin{tcolorbox}[title={グレーのカラーボックス（標準）}]
+  これはグレーのカラーボックスの内容です．
+  \tcblower
+  これもグレーのカラーボックスの内容です．
+\end{tcolorbox}
+
+\begin{lstlisting}[language=TeX]
+\begin{tcolorbox}[title={グレーのカラーボックス（標準）}]
+  これはグレーのカラーボックスの内容です．
+  \tcblower
+  これもグレーのカラーボックスの内容です．
+\end{tcolorbox}
+\end{lstlisting}
+
+\begin{bluebox}[title={青のカラーボックス}]
+  これは青のカラーボックスの内容です．
+  \tcblower
+  これも青のカラーボックスの内容です．
+\end{bluebox}
+
+\begin{lstlisting}[language=TeX]
+\begin{bluebox}[title={青のカラーボックス}]
+  これは青のカラーボックスの内容です．
+  \tcblower
+  これも青のカラーボックスの内容です．
+\end{bluebox}
+\end{lstlisting}
+
+\begin{redbox}[title={赤のカラーボックス}]
+  これは赤のカラーボックスの内容です．
+  \tcblower
+  これも赤のカラーボックスの内容です．
+\end{redbox}
+
+\begin{greenbox}[title={緑のカラーボックス}]
+  これは緑のカラーボックスの内容です．
+  \tcblower
+  これも緑のカラーボックスの内容です．
+\end{greenbox}
 
 %%% 文献 %%%
 % \biblist
