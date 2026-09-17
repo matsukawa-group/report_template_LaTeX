@@ -892,9 +892,52 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 ここには注意の内容を書きます．
 \end{remark}
 
+\subsection{かっこいい枠}
+\label{ssec:frame}
 
+定理環境としても使えるかっこいい枠を \href{https://ctan.org/pkg/tcolorbox}{\texttt{tcolorbox}} パッケージで作成できます．
+標準の色はグレーです．
+毎回色を変えるのは面倒なので，このレポートテンプレートでは枠の色に青・赤・緑の 3 色を用意しました．
 
+\begin{tcolorbox}[title={グレーのカラーボックス（標準）}]
+  これはグレーのカラーボックスの内容です．
+  \tcblower
+  これもグレーのカラーボックスの内容です．
+\end{tcolorbox}
 
+\begin{lstlisting}[language=TeX]
+\begin{tcolorbox}[title={グレーのカラーボックス（標準）}]
+  これはグレーのカラーボックスの内容です．
+  \tcblower
+  これもグレーのカラーボックスの内容です．
+\end{tcolorbox}
+\end{lstlisting}
+
+\begin{bluebox}[title={青のカラーボックス}]
+  これは青のカラーボックスの内容です．
+  \tcblower
+  これも青のカラーボックスの内容です．
+\end{bluebox}
+
+\begin{lstlisting}[language=TeX]
+\begin{bluebox}[title={青のカラーボックス}]
+  これは青のカラーボックスの内容です．
+  \tcblower
+  これも青のカラーボックスの内容です．
+\end{bluebox}
+\end{lstlisting}
+
+\begin{redbox}[title={赤のカラーボックス}]
+  これは赤のカラーボックスの内容です．
+  \tcblower
+  これも赤のカラーボックスの内容です．
+\end{redbox}
+
+\begin{greenbox}[title={緑のカラーボックス}]
+  これは緑のカラーボックスの内容です．
+  \tcblower
+  これも緑のカラーボックスの内容です．
+\end{greenbox}
 
 %%% 文献 %%%
 % \biblist
