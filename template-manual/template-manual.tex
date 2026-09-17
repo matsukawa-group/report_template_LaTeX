@@ -306,7 +306,7 @@ $sinx$ などと書くことのないように気をつけましょう．
 
 \begin{table}[t]
     \centering
-    \caption{ギリシャ文字の出力方法．}
+    \caption{How to typeset Greek letters.}
     \label{tb:greek}
     \begin{tabular}{c|c|c|c|c} \hline\hline
         英語名 & 大文字出力 & 大文字入力 & 小文字出力 & 小文字入力 \\ \hline
@@ -938,6 +938,44 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
   \tcblower
   これも緑のカラーボックスの内容です．
 \end{greenbox}
+
+\section{参考文献リストの作成と出力}
+\label{sec:bibliography}
+
+\subsection{参考文献の記載時の一般的な注意事項}
+\label{ssec:bib-caution}
+
+第~\ref{ssec:bib-caution}~節はこのテンプレートに限らない，一般的に学術論文等で参考文献を載せる際に注意すべき点をまとめています．
+論文執筆の際には多くの文献を引用することになります．
+読者に正しい情報を提供するのはもちろんのこと，先人たちの業績を認め，評価するという観点でも文献を引用する際は細心の注意を払いましょう．
+
+
+参考文献の引用方法は Harvard 方式と Vancouver 方式に大別できます．
+
+\begin{itemize}
+  \item Harvard 方式
+  \begin{itemize}
+    \item 本文中での引用はいわゆる author-year 方式．「著者名」と「発行年」を記載する．
+    \item 本文中での引用は苗字だけでの記載が多い．引用例：
+    \begin{itemize}
+      \item 著者 1 名：
+      \item 著者 2 名：
+      \item 著者 3 名以上：
+    \end{itemize}
+    \item et al. は，ラテン語で「そしてその他（の人々）」を意味する et alii（男性・混合複数），et aliae（女性複数），et alia（中性複数）に由来する略語．\textit{Italic} 体で \textit{et al.} と表記することも多い．
+    \item 論文末尾の文献リストは著者名のアルファベット順でソート．
+  \end{itemize}
+  \item Vancouver 方式
+  \begin{itemize}
+    \item 本文中での引用は番号．
+    \item 本文中での引用例：～が明らかになっている [1, 2]．
+    \item 論文末尾の文献リストは本文での登場順でソート．
+  \end{itemize}
+\end{itemize}
+
+どちらの方式で書いても構いませんが，レポート全体を通して一貫した引用方法を採用するようにしてください．
+
+
 
 %%% 文献 %%%
 % \biblist
