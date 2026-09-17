@@ -166,6 +166,8 @@
 番号なしの箇条書きの例として，明治大学のキャンパスと学部を挙げます．
 箇条書きは入れ子にすることもできます．
 
+\vspace{-3mm}
+
 \begin{multicols}{2}
   \begin{itemize}
     \item 和泉，駿河台キャンパス
@@ -222,13 +224,15 @@
 \end{lstlisting}
 \end{multicols}
 
-\vspace{-2mm}
+\vspace{-10mm}
 
 \subsubsection{番号付きの箇条書き}
 \label{sssec:enumerate}
 
 番号付きの箇条書きの例として，日本の苗字ランキングの上位を挙げます．
 番号付きの箇条書きも入れ子にすることができます．
+
+\vspace{-3mm}
 
 \begin{multicols}{2}
   \begin{enumerate}
@@ -496,8 +500,7 @@ $sinx$ などと書くことのないように気をつけましょう．
     \item \verb|h|\quad できるだけその位置（\textbf{h}ere）に図を出力
     \item \verb|H|\quad 必ずその位置（\textbf{H}ere）に図を出力（\href{https://ctan.org/pkg/float}{\texttt{float}} パッケージを必要とする）
 \end{itemize}
-学位論文中の図は原則ページ上部に配置するのでこの \verb|tex| ファイル中では \verb|[t]| に設定してあります．
-皆さんはこのままコピーしてください．
+論文等の図は原則ページ上部に配置するのでこの \verb|tex| ファイル中では \verb|[t]| に設定してあります．
 \verb|\columnwidth| は現在のコラムのテキスト幅を指しており，\verb|[width=0.5\columnwidth]| と設定することで，テキスト幅の半分の横幅で図を挿入できます．
 図の大きさの指定に関してよく使うコマンドをテキストボックスにまとめてあります．
 \verb|\textwidth|，\verb|\columnwidth|，\verb|\linewidth| はよく似たコマンドですが，二段組の論文の場合はそれぞれの段の列幅が \verb|\columnwidth| になり，\verb|\linewidth| はリストなどの環境下での行の長さで臨機応変に対応します．
@@ -667,10 +670,112 @@ $sinx$ などと書くことのないように気をつけましょう．
         \caption{Lower-right figure caption.}
         \label{subfig:four_figures_c2}
     \end{subfigure}
-    \caption{Four figures placed in a $2 times 2$ grid.}
+    \caption{Four figures placed in a $2 \times 2$ grid.}
     \label{fig:four_figures}
 \end{figure}
 %%%
+
+\clearpage
+\section{表の配置}
+\label{sec:table}
+
+次に表の作り方を説明します．
+正直，\LaTeX 環境での表作成は少々面倒です．
+特に表のセルの数が多くなると行をいくつも増やさなければいけないのでかなりの労力がかかります．
+簡単に \LaTeX の表を作ってくれるツールとして，\href{https://www.tablesgenerator.com/}{Tables Generator} があります．
+また，\href{https://www.overleaf.com/blog/major-feature-news-add-and-edit-tables-without-writing-code}{2023 年 9 月 27 日に Overleaf に入ったアップデート}で直感的な表の作成が可能になりました．
+Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 文書を書いているときに表作成時だけでも Overleaf を立ち上げるとストレス無く表を作れます．
+
+ここでは \verb|tabular| 環境を用いた表作成の方法と \verb|tblr| 環境を用いた表作成の方法の両方を記載します．
+\verb|tabular| 環境は古くから存在している表作成の方法ですが，カスタマイズ性が低く，非常に使いにくいです．
+しかし，\href{https://ctan.org/pkg/tabularray}{\texttt{tabularray}} パッケージ\footnote{\LaTeX3 を利用した新しいパッケージです．}でサポートされている \verb|tblr| 環境は非常にカスタマイズ性が高く，\verb|tabular| 環境で非常に難しかったセル結合も容易に行えます．
+\verb|tabluar| 環境は現在でも広く使われているためこのテンプレートでも説明しますが，皆さんが論文等を書くときは是非 \verb|tblr| 環境を使ってみてください．
+
+\subsection{\texttt{tabular} 環境を用いた表}
+\label{ssec:tabular}
+
+\begin{lstlisting}[language=TeX]
+\begin{table}[t]
+    \centering
+    \caption{Sample table (using the \texttt{tabular} environment).}
+    \label{table:tabular}
+    \begin{tabular}{lcr} \hline\hline
+        \multicolumn{1}{c}{学会名}  & 会員種別  & \multicolumn{1}{c}{年会費} \\ \hline
+        \multicolumn{3}{c}{実在する学会} \\ \hline
+        日本機械学会    & 学生員    & 4,800 円 \\ \hline
+        日本流体力学会  & 学生会員  & 5,000 円 \\ \hline
+        日本伝熱学会    & 学生会員  & 4,000 円 \\ \hline
+        \multicolumn{3}{c}{実在しない学会} \\ \hline
+        \multirow{4}{*}{日本架空学会}& 小学生会員  & $-8,000$ 円 \\ \cline{2-3}
+        & 中高生会員  & $-5,000$ 円 \\ \cline{2-3}
+        & 大学生会員  & $-2,000$ 円 \\ \cline{2-3}
+        & 名誉学生会員  & $6.02 \times 10^{23}$ 円 \\ \hline
+    \end{tabular}
+\end{table}
+\end{lstlisting}
+
+\verb|tabular| 環境を使用した表のサンプルを表~\ref{table:tabular} に示します．
+表を作成するときは \verb|table| 環境の中に \verb|tabular| 環境を作ります．
+\verb|table| 環境は，表やキャプション，ラベルを全て含めた表全体の制御を行い，\verb|tabular| 環境は表の各セルの制御を行います．
+\verb|table| 環境では \verb|figure| 環境と同様，\verb|h|, \verb|t|, \verb|b|, \verb|p|, \verb|H| による位置制御を行います．
+図の場合はキャプションを下に付けますが，表の場合はキャプションを上に付けます．
+\verb|tabular| 環境内でセルの文字揃え位置制御は \verb|lcr| で行います．
+
+\begin{itemize}
+    \item \verb|l|\quad 左揃え（\textbf{l}eft）
+    \item \verb|c|\quad 中央揃え（\textbf{c}enter）
+    \item \verb|r|\quad 右揃え（\textbf{r}ight）
+\end{itemize}
+
+表~\ref{table:tabular} の場合は \texttt{\{lcr\}} としています．
+この場合，左の列から左寄せ・中央寄せ・右寄せになります．
+ここで \texttt{\{l|c|r\}} のように縦棒（バーティカルライン）\verb||| を入れると表に縦罫線を入れられます．
+この場合，1 列目と 2 列目の間，2 列目と 3 列目の間に縦罫線を入れます．
+行の区切りは \verb|\\|，列の区切りは \verb|&| です．
+横罫線を引くときは \verb|\hline| を使います．
+
+%%% tabular 環境を用いた表のサンプルコード
+\begin{table}[t]
+    \centering
+    \caption{Sample table (using the \texttt{tabular} environment).}
+    \label{table:tabular}
+    \begin{tabular}{lcr} \hline\hline
+        \multicolumn{1}{c}{学会名}  & 会員種別  & \multicolumn{1}{c}{年会費} \\ \hline
+        \multicolumn{3}{c}{実在する学会} \\ \hline
+        日本機械学会    & 学生員    & 4,800 円 \\ \hline
+        日本流体力学会  & 学生会員  & 5,000 円 \\ \hline
+        日本伝熱学会    & 学生会員  & 4,000 円 \\ \hline
+        \multicolumn{3}{c}{実在しない学会} \\ \hline
+        \multirow{4}{*}{日本架空学会}& 小学生会員  & $-8,000$ 円 \\ \cline{2-3}
+        & 中高生会員  & $-5,000$ 円 \\ \cline{2-3}
+        & 大学生会員  & $-2,000$ 円 \\ \cline{2-3}
+        & 名誉学生会員  & $6.02 \times 10^{23}$ 円 \\ \hline
+    \end{tabular}
+\end{table}
+%%%
+
+次に表のセル結合について説明します．
+行方向のセル結合を行う際は \verb|\multicolumn{結合する列数}{揃え位置}{セルの中身}| を使います（結合するセルは列）．
+表~\ref{table:tabular} の 2 行目で使用している \verb|\multicolumn{3}{c}{実在する学会}| は「横並びの 3 つのセルを結合し，『実在する学会』という文字列を中央揃えで配置する」命令です．
+1 行 1 列目では \texttt{\textbackslash multicolumn\{1\}\{c|\}\{学会名\}} としていますが，これは本来左揃えになっている 1 列目を，このセルだけ例外的に中央揃えにするために使用しています．
+面白い使い方ですね．
+列方向のセル結合を行う際は \verb|\multirow{結合する行数}{幅}{セルの中身}| を使います（結合するセルは行）．
+表~\ref{table:tabular} の 7 行 1 列目で使用している \verb|\multirow{4}{*}{日本架空学会}| は「縦並びの 4 つのセルを結合し，『日本架空学会』という文字列を幅指定なしで配置する」命令です．
+列方向のセル結合を行う際は横罫線を消す必要があります．
+\verb|\cline{x-y}| という命令を使うと，x 列目から y 列目に横罫線を入れるコマンドです．
+\verb|\hline| がその行全体に横罫線を入れるのに対して \verb|\cline{}| はその行に部分的な横罫線を入れるコマンドです．
+横罫線を消すことでセル結合したような出力を得られます．
+
+\begin{tcolorbox}[title={\texttt{tabular} 環境でセル結合する際に使用するコマンド}]
+    \begin{tabular}{ll}
+        \verb|\multicolumn{結合する列数}{揃え位置}{セルの中身}| & 列のセル結合  \\
+        \verb|\multirow{結合する行数}{幅}{セルの中身}|  & 行のセル結合  \\
+        \verb|\cline{start-end}|    & 一部の横罫線のみを表示
+    \end{tabular}
+\end{tcolorbox}
+
+また，表の中では数式を使用することも可能です．
+やりがちなミスとして，負の数をセルに入れるときに数式環境 \verb|$$| に入れ忘れて，マイナスがハイフンとなって出力されているものがあります\footnote{例えば $-100$ と表示するには \texttt{\$-100\$} と入力する必要があります．\texttt{-100} だと -100 と表示されます．}．
 
 
 %%% 文献 %%%
