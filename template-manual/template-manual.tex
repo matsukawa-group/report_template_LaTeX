@@ -301,7 +301,7 @@ $sinx$ などと書くことのないように気をつけましょう．
 左辺第二項では速度 $\mathbf{u}$ がベクトルであるため，\textbf{Bold} 体になっています．
 これは \verb|\mathbf{u}| とすることで出力できます．
 このテンプレートでは \href{https://ctan.org/pkg/unicode-math}{\texttt{unicode-math}} を使用しているので \verb|\symbf{u}| というコマンドもサポートされています．
-ベクトルを \textbf{\textit{Bold Italic}} 体 $\symbfit{u}$ にしたい場合は \verb|\symbfit{u}| というコマンドを使用してください（第~\ref{ssec:typeface_math}~節を参照）．
+ベクトルを \textbf{\textit{Bold Italic}} 体 $\symbfit{u}$ にしたい場合は \verb|\symbfit{u}| というコマンドを使用してください．
 このテンプレートでは \href{https://ctan.org/pkg/bm}{\texttt{bm}} パッケージを使用していません．
 
 \begin{table}[t]
@@ -846,6 +846,54 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
         \verb|\SetCell[r=2,c=3]{c}|  & 2 行 3 列をセル結合し中央揃え \\
     \end{tabular}
 \end{tcolorbox}
+
+\section{定理環境・かっこいい枠}
+\label{sec:theorem-box}
+
+\subsection{定理環境}
+\label{ssec:theorem}
+
+数学や物理の定理や法則を示すための定理環境は以下のものが使えます．
+
+\begin{theorem}
+ここには定理の内容を書きます．
+\end{theorem}
+
+\begin{theorem}[定理の名前]
+\label{thm:example}
+定理も相互参照可能です．
+\end{theorem}
+\begin{lstlisting}[language=TeX]
+\begin{theorem}[定理の名前]
+\label{thm:example}
+定理も相互参照可能です．
+\end{theorem}
+\end{lstlisting}
+
+定理~\ref{thm:example} に関して，私は真に驚くべき証明を見つけたが，この余白はそれを書くには狭すぎる．
+
+\begin{corollary}
+ここには系の内容を書きます．
+\end{corollary}
+
+\begin{lemma}
+ここには補題の内容を書きます．
+\end{lemma}
+
+\begin{definition}
+ここには定義の内容を書きます．
+\end{definition}
+
+\begin{example}
+ここには例の内容を書きます．
+\end{example}
+
+\begin{remark}
+ここには注意の内容を書きます．
+\end{remark}
+
+
+
 
 
 %%% 文献 %%%

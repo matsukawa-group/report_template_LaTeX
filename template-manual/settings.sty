@@ -116,12 +116,11 @@
 % ロゴ関連
 \usepackage{bxtexlogo}
 % 枠
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
 \tcbuselibrary{skins}
 \tcbset{
   fonttitle=\sffamily\bfseries, % title をゴシック体（サンセリフ体）に設定
   enhanced,
-  drop fuzzy shadow             % 影つき
 }
 % レイアウト確認用
 % \usepackage{layout}
@@ -133,6 +132,16 @@
 % 文書の最終ページを確認
 \usepackage{lastpage}
 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{aaaaa}[theorem]{aaaaa}
 
 %%% 表示の変更 %%%
 % 無次元数など
