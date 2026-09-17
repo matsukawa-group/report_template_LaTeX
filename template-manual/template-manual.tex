@@ -777,6 +777,76 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 また，表の中では数式を使用することも可能です．
 やりがちなミスとして，負の数をセルに入れるときに数式環境 \verb|$$| に入れ忘れて，マイナスがハイフンとなって出力されているものがあります\footnote{例えば $-100$ と表示するには \texttt{\$-100\$} と入力する必要があります．\texttt{-100} だと -100 と表示されます．}．
 
+\subsection{\texttt{tblr} 環境を用いた表}
+\label{ssec:tblr}
+
+%%% tblr 環境を用いた表のサンプルコード
+\begin{table}[t]
+    \centering
+    \caption{Sample table (using the \texttt{tblr} environment).}
+    \label{table:tblr}
+    \begin{tblr}{
+        colspec = {lcr},    % 文字の揃え位置制御
+        hlines,             % 横罫線の表示
+        % vlines,             % 縦罫線の表示
+    } \hline
+        \SetCell{c} 学会名  & 会員種別      & \SetCell{c} 年会費 \\
+        \SetCell[c=3]{c} 実在する学会   &   &   \\
+        日本機械学会       & 学生員        & 4,800 円 \\
+        日本流体力学会     & 学生会員      & 5,000 円 \\
+        日本伝熱学会       & 学生会員      & 4,000 円 \\
+        \SetCell[c=3]{c} 実在しない学会   &   &   \\
+        \SetCell[r=4]{l} 日本架空学会   & 小学生会員    & $-8,000$ 円 \\
+        & 中高生会員    & $-5,000$ 円 \\
+        & 大学生会員    & $-2,000$ 円 \\
+        & 名誉学生会員  & $6.02 \times 10^{23}$ 円 \\
+    \end{tblr}
+\end{table}
+%%%
+
+\begin{lstlisting}[language=TeX]
+\begin{table}[t]
+    \centering
+    \caption{Sample table (using the \texttt{tblr} environment).}
+    \label{table:tblr}
+    \begin{tblr}{
+        colspec = {lcr},    % 文字の揃え位置制御
+        hlines,             % 横罫線の表示
+        % vlines,             % 縦罫線の表示
+    } \hline
+        \SetCell{c} 学会名  & 会員種別      & \SetCell{c} 年会費 \\
+        \SetCell[c=3]{c} 実在する学会   &   &   \\
+        日本機械学会       & 学生員        & 4,800 円 \\
+        日本流体力学会     & 学生会員      & 5,000 円 \\
+        日本伝熱学会       & 学生会員      & 4,000 円 \\
+        \SetCell[c=3]{c} 実在しない学会   &   &   \\
+        \SetCell[r=4]{l} 日本架空学会   & 小学生会員    & $-8,000$ 円 \\
+        & 中高生会員    & $-5,000$ 円 \\
+        & 大学生会員    & $-2,000$ 円 \\
+        & 名誉学生会員  & $6.02 \times 10^{23}$ 円 \\
+    \end{tblr}
+\end{table}
+\end{lstlisting}
+
+表~\ref{table:tblr} は \verb|tblr| 環境を用いた表のサンプルです．
+見た目が表~\ref{table:tabular} と同じになるようにしています．
+基本的な使い方は \verb|tabular| 環境に準じています．
+大きな違いは罫線の扱いです．
+\verb|\begin{tblr}| の直後で \verb|hlines| を入れると全ての横罫線が，\verb|vlines| を入れると全ての縦罫線が表示されます．
+また，セル結合の方法も異なります．
+表~\ref{table:tblr} の 2 行目の \verb|\SetCell[c=3]{c} 実在する学会| は「横並びの 3 つのセルを結合し，『実在する学会』という文字列を中央揃えで配置する」命令です．
+1 行 1 列目では \verb|\SetCell{c} 学会名| とすることでこのセルだけ中央揃えに変えています．
+7 行 1 列目の \verb|\SetCell[r=4]{l} 日本架空学会| は「縦並びの 4 つのセルを結合し，『日本架空学会』という文字列を左揃えで配置する」命令です．
+
+\begin{tcolorbox}[title={\texttt{tblr} 環境でセル結合する際に使用するコマンド}]
+    \begin{tabular}{ll}
+        \verb|\SetCell{c}|   & そのセルだけ中央揃えに変更 \\
+        \verb|\SetCell[r=3]{c}|  & 3 行をセル結合し中央揃え \\
+        \verb|\SetCell[c=3]{c}|  & 3 列をセル結合し中央揃え \\
+        \verb|\SetCell[r=2,c=3]{c}|  & 2 行 3 列をセル結合し中央揃え \\
+    \end{tabular}
+\end{tcolorbox}
+
 
 %%% 文献 %%%
 % \biblist
