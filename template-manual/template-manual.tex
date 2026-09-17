@@ -676,8 +676,8 @@ $sinx$ などと書くことのないように気をつけましょう．
 %%%
 
 \clearpage
-\section{表の配置}
-\label{sec:table}
+\subsection{表の配置}
+\label{ssec:table}
 
 次に表の作り方を説明します．
 正直，\LaTeX 環境での表作成は少々面倒です．
@@ -691,8 +691,8 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 しかし，\href{https://ctan.org/pkg/tabularray}{\texttt{tabularray}} パッケージ\footnote{\LaTeX3 を利用した新しいパッケージです．}でサポートされている \verb|tblr| 環境は非常にカスタマイズ性が高く，\verb|tabular| 環境で非常に難しかったセル結合も容易に行えます．
 \verb|tabluar| 環境は現在でも広く使われているためこのテンプレートでも説明しますが，皆さんが論文等を書くときは是非 \verb|tblr| 環境を使ってみてください．
 
-\subsection{\texttt{tabular} 環境を用いた表}
-\label{ssec:tabular}
+\subsubsection{\texttt{tabular} 環境を用いた表}
+\label{sssec:tabular}
 
 \begin{lstlisting}[language=TeX]
 \begin{table}[t]
@@ -777,8 +777,8 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 また，表の中では数式を使用することも可能です．
 やりがちなミスとして，負の数をセルに入れるときに数式環境 \verb|$$| に入れ忘れて，マイナスがハイフンとなって出力されているものがあります\footnote{例えば $-100$ と表示するには \texttt{\$-100\$} と入力する必要があります．\texttt{-100} だと -100 と表示されます．}．
 
-\subsection{\texttt{tblr} 環境を用いた表}
-\label{ssec:tblr}
+\subsubsection{\texttt{tblr} 環境を用いた表}
+\label{sssec:tblr}
 
 %%% tblr 環境を用いた表のサンプルコード
 \begin{table}[t]
