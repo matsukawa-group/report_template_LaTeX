@@ -1,0 +1,864 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%                   report_template_LaTeX
+%%%                       settings.sty
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%
+%%% Packages %%%
+%%%%%%%%%%%%%%%%
+%%% 数式・フォント %%%
+% Times 系フォント + Unicode Math
+\usepackage{fontspec} % 欧文フォントの設定
+\usepackage{luatexja} % LuaLaTeX 用の日本語処理パッケージ
+\usepackage{luatexja-fontspec} % LuaLaTeX 用の日本語フォント設定
+\usepackage{luatexja-otf} % LuaLaTeX 用の OTF フォントサポート
+\usepackage[math-style=TeX,bold-style=TeX]{unicode-math} % 数学フォント設定
+% 欧文フォント設定
+% \setmainfont[Ligatures=TeX]{XITS}
+% \setsansfont[Ligatures=TeX]{TeX Gyre Heros}
+% 数学フォント設定
+% \setmathfont{XITS Math}
+% \setmathfont{XITS Math}[range={cal,bfcal},StylisticSet=1]
+% 数式用パッケージ
+% \usepackage{physics}
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usepackage{fixdif}
+\usepackage{derivative}
+\allowdisplaybreaks
+% 文字に色を付ける
+\usepackage{xcolor}
+% 多段組
+\usepackage{multicol}
+
+%%% コードブロック %%%
+\usepackage{listings}
+
+\definecolor{codegreen}{RGB}{40,140,70}
+\definecolor{codegray}{RGB}{120,120,120}
+\definecolor{codepurple}{RGB}{140,70,160}
+\definecolor{codeblue}{RGB}{0,90,160}
+\definecolor{backcolour}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{210,210,210}
+
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},
+  basicstyle=\ttfamily\footnotesize,
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{codeblue}\bfseries,
+  stringstyle=\color{codepurple},
+  numberstyle=\scriptsize\color{codegray},
+  numbers=left,
+  numbersep=8pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  keepspaces=true,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=single,
+  rulecolor=\color{codeframe},
+  framesep=6pt,
+  xleftmargin=1em,
+  xrightmargin=0.5em,
+  aboveskip=1em,
+  belowskip=1em,
+  captionpos=b
+}
+
+\lstset{style=mystyle}
+
+%%% hyperref %%%
+% ハイパーリンクに色が付かないようにしたいときは hidelinks のコメントアウトをはずす
+\usepackage[%
+  bookmarks=true,% PDF にしおりをつける
+  bookmarksnumbered=true,% しおりに章・節番号を含める
+  setpagesize=false,% 紙のサイズを変更しない
+  colorlinks=true,% リンクのテキストに色をつける
+  % hidelinks,% リンクに色をつけない
+  allcolors=blue% リンクの色を全て青に統一する
+  ]{hyperref}
+
+%%% 図関連 %%%
+% 図の読み込みに必要
+\usepackage{graphicx}
+%%% 関連する図を並べる際に使用
+% Fig. xxx の後ろをコロンではなくスペースに設定
+\usepackage[labelsep=quad]{caption}
+% サブ図のキャプションの出力を (a) xxx に設定
+\usepackage[labelsep=space]{subcaption}
+% サブ図参照時の出力を括弧ありをデフォルトにしたい場合は下記コマンドを使用
+% \renewcommand{\thesubfigure}{(\alph{subfigure})}
+
+%%% 表関連 %%%
+\usepackage{tabularx}
+% 行の結合
+\usepackage{multirow}
+% 表のカスタマイズ性が高い tabularray パッケージ
+\usepackage{tabularray}
+% tblr 環境のセルの余白を変更
+\SetTblrInner{rowsep=0pt}
+
+%%% 文献関連 %%%
+% biblatex + Biber で参考文献リストを作成する．
+% Typst 版のレポートテンプレート（report_template_Typst）と同じ体裁になるように，
+% 日本語文献と英語文献で書式を自動的に切り替える．
+% 文献リストの番号付け（[1], [2], ...）と \cite の出力は biblatex 標準の numeric スタイルを土台にしている．
+%
+% 本文中の引用コマンド
+%   \cite{key}, \citen{key} → [1]
+%   \citet{key}             → Reynolds (1883)
+%   \citep{key}             → （Reynolds, 1883）
+%   \citepe{key}            → (Reynolds, 1883)（常に半角括弧）
+\usepackage[
+  backend=biber,      % バックエンドに Biber を使用
+  style=numeric,      % 番号付きの文献リストを土台にする
+  sorting=none,       % 本文中での引用順に並べる（Vancouver 方式）
+  % sorting=nyt,      % 著者名のアルファベット順（Harvard 方式）にしたい場合は上の行と入れ替える
+  maxbibnames=99,     % 文献リストでは著者を全員表示する
+  minbibnames=99,
+  maxcitenames=2,     % 本文中の引用では著者 3 名以上を「et al.」「他」で省略する
+  mincitenames=1,
+  giveninits=true,    % 英語文献の名（given name）はイニシャルにする
+  useprefix=true,     % van, de などの前置詞を姓の前に出力する
+  uniquename=false,
+  uniquelist=false,
+  labeldateparts=true,% 同じ著者・同じ年の文献に 2020a, 2020b を付ける
+  isbn=false,
+  ]{biblatex}
+
+% 文献番号 [1] と本文の間隔（jlreq では \labelsep が 0 になるため明示的に指定）
+\setlength{\biblabelsep}{0.5em}
+
+% 長い URL や DOI を英数字の途中でも改行できるようにし，
+% URL の文字間が間延びしないようにする
+\setcounter{biburlnumpenalty}{3000}
+\setcounter{biburllcpenalty}{3000}
+\setcounter{biburlucpenalty}{3000}
+\biburlbigskip=0mu\relax
+
+%==================================================
+% bib ファイルの読み替え（Biber）
+%==================================================
+% - yomi   : 日本語文献の読み．sortname として並べ替えに使う．
+% - access : Web ページの参照日．usera として保持する．
+% - 著者名や題目などに日本語（漢字・ひらがな・カタカナ）を含む文献は
+%   langid = {japanese} として扱う．bib ファイル側で langid が
+%   指定されている場合はそちらを優先する．
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=yomi, fieldtarget=sortname]
+    }
+    \map{
+      \step[fieldsource=access, fieldtarget=usera]
+    }
+    % Typst 版と bib ファイルを共用できるように，エスケープされていない & を \& に置き換える
+    \map{
+      \step[fieldsource=title,        match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=booktitle,    match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=journal,      match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=publisher,    match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=howpublished, match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=note,         match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+    }
+    \map{\step[fieldsource=author,       match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=editor,       match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=title,        match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=journal,      match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=journaltitle, match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=booktitle,    match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=publisher,    match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=howpublished, match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=school,       match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=institution,  match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=organization, match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=usera,        match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+  }
+}
+
+%==================================================
+% 言語の判定
+%==================================================
+\newcommand*{\ifbibjapanese}{\iffieldequalstr{langid}{japanese}}
+
+% 著者名の区切り
+%   英語文献  ：A, B and C
+%   日本語文献：A, B, C
+\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+\DeclareDelimFormat{finalnamedelim}{%
+  \ifbibjapanese
+    {\addcomma\space}
+    {\addspace and\space}}
+
+%==================================================
+% 著者名の書式
+%==================================================
+% 英語文献  ：Matsukawa, Y.
+% 日本語文献：松川裕樹
+\DeclareNameFormat{my:bib}{%
+  \ifbibjapanese
+    {\usebibmacro{name:delim}{#1}%
+     \usebibmacro{name:hook}{#1}%
+     \mkbibnamefamily{\namepartfamily}%
+     \mkbibnamegiven{\namepartgiven}}
+    {\ifgiveninits
+       {\usebibmacro{name:family-given}
+         {\namepartfamily}
+         {\namepartgiveni}
+         {\namepartprefix}
+         {\namepartsuffix}}
+       {\usebibmacro{name:family-given}
+         {\namepartfamily}
+         {\namepartgiven}
+         {\namepartprefix}
+         {\namepartsuffix}}}}
+\DeclareNameAlias{author}{my:bib}
+\DeclareNameAlias{editor}{my:bib}
+
+%==================================================
+% 各フィールドの書式
+%==================================================
+% 題目
+%   英語文献  ："Title," （先頭以外を小文字にする sentence case）
+%   日本語文献：「題目」,
+\DeclareFieldFormat{my:title}{%
+  \ifbibjapanese
+    {「#1」}
+    {\mkbibquote{\MakeSentenceCase*{#1}}}}
+
+% 誌名・書名・出版社など（英語文献のみイタリック体）
+\DeclareFieldFormat{my:emph}{%
+  \ifbibjapanese
+    {#1}
+    {\mkbibemph{#1}}}
+
+\DeclareListFormat{my:emph}{%
+  \usebibmacro{list:delim}{#1}%
+  \ifbibjapanese
+    {#1}
+    {\mkbibemph{#1}}%
+  \usebibmacro{list:andothers}}
+
+\DeclareFieldFormat{my:volume}{\mkbibbold{#1}}
+\DeclareFieldFormat{my:number}{\mkbibparens{#1}}
+\DeclareFieldFormat{my:pages}{#1}
+\DeclareFieldFormat{my:note}{\mkbibparens{#1}}
+\DeclareFieldFormat{doi}{%
+  DOI\addcolon\space
+  \ifhyperref
+    {\href{https://doi.org/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}}
+\DeclareFieldFormat{url}{URL\addcolon\space\textless\url{#1}\textgreater}
+\DeclareFieldFormat{usera}{\mkbibparens{accessed on\addcolon\space #1}}
+\DeclareFieldFormat{eprint:arxiv}{%
+  arXiv\addcolon\space
+  \ifhyperref
+    {\href{https://arxiv.org/abs/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}}
+
+%==================================================
+% 各要素の出力マクロ
+%==================================================
+% 著者
+\newbibmacro*{my:author}{%
+  \ifnameundef{author}
+    {}
+    {\printnames{author}%
+     \setunit{\addcomma\space}}}
+
+% 編者（英語文献：Name ed.，日本語文献：Name編）
+\newbibmacro*{my:editor}{%
+  \ifnameundef{editor}
+    {}
+    {\printnames{editor}%
+     \ifbibjapanese
+       {\printtext{編}}
+       {\printtext{\addspace ed\adddot}}%
+     \setunit{\addcomma\space}}}
+
+% 題目．英語文献では "Title," のように閉じ引用符の内側にカンマを入れる．
+% 引数に nocomma を与えると題目の後ろにカンマを付けない（@manual, @unpublished）．
+\newbibmacro*{my:title}[1]{%
+  \iffieldundef{title}
+    {}
+    {\ifbibjapanese
+       {\setunit{\addcomma}}% 「の前には空白を入れない
+       {}%
+     \ifstrequal{#1}{nocomma}
+       {\printfield[my:title]{title}}
+       {\ifbibjapanese
+          {\printfield[my:title]{title}\printtext{,}}
+          {\printtext{\mkbibquote{\printfield[my:titlecase]{title},}}}}%
+     \setunit{\addspace}}}
+
+\DeclareFieldFormat{my:titlecase}{\MakeSentenceCase*{#1}}
+
+% 誌名・書名などの「掲載先」
+\newbibmacro*{my:venue}[1]{%
+  \iffieldundef{#1}
+    {}
+    {\printfield[my:emph]{#1}%
+     \setunit{\addcomma\space}}}
+
+% 出版社・機関など（biblatex ではリスト型のフィールド）
+\newbibmacro*{my:venuelist}[1]{%
+  \iflistundef{#1}
+    {}
+    {\printlist[my:emph]{#1}%
+     \setunit{\addcomma\space}}}
+
+% 年（同じ著者・同じ年の文献には a, b, ... を付ける）
+\newbibmacro*{my:year}{%
+  \iffieldundef{year}
+    {}
+    {\setunit{\addspace}%
+     \printtext[parens]{\printfield{year}\printfield{extradate}}%
+     \setunit{\addcomma\space}}}
+
+% 巻・号（例：34(7)）
+\newbibmacro*{my:volume+number}{%
+  \printfield[my:volume]{volume}%
+  \setunit*{}%
+  \printfield[my:number]{number}%
+  \setunit{\addcomma\space}}
+
+% ページ
+\newbibmacro*{my:pages}{%
+  \printfield[my:pages]{pages}%
+  \setunit{\addcomma\space}}
+
+% 注記
+\newbibmacro*{my:note}{%
+  \printfield[my:note]{note}%
+  \setunit{\addcomma\space}}
+
+% arXiv
+\newbibmacro*{my:eprint}{%
+  \iffieldundef{eprint}
+    {}
+    {\printfield[eprint:arxiv]{eprint}%
+     \setunit{\addcomma\space}}}
+
+% DOI（DOI が無い場合のみ URL を出力する）
+\newbibmacro*{my:doi+url}{%
+  \iffieldundef{doi}
+    {\printfield{url}}
+    {\printfield{doi}}%
+  \setunit{\addcomma\space}}
+
+% Web ページの参照日
+\newbibmacro*{my:access}{%
+  \printfield{usera}%
+  \setunit{\addcomma\space}}
+
+% 学位論文の種別
+%   英語文献  ："Title," Master's Thesis, School
+%   日本語文献：「題目」, School修士論文
+\newbibmacro*{my:thesis}{%
+  \ifbibjapanese
+    {\printlist{institution}%
+     \iffieldequalstr{type}{mathesis}{\printtext{修士論文}}{}%
+     \iffieldequalstr{type}{phdthesis}{\printtext{博士論文}}{}}
+    {\iffieldequalstr{type}{mathesis}
+       {\printtext{\mkbibemph{Master's Thesis}}\setunit{\addcomma\space}}
+       {}%
+     \iffieldequalstr{type}{phdthesis}
+       {\printtext{\mkbibemph{Ph.D. Dissertation}}\setunit{\addcomma\space}}
+       {}%
+     \printlist[my:emph]{institution}}%
+  \setunit{\addcomma\space}}
+
+%==================================================
+% 各エントリーのドライバ
+%==================================================
+% @article
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venue}{journaltitle}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:volume+number}%
+  \usebibmacro{my:pages}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+% @book, @inbook
+\DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:editor}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venuelist}{publisher}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:volume+number}%
+  \usebibmacro{my:pages}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{inbook}{book}
+
+% @booklet, @misc, @online
+\DeclareBibliographyDriver{misc}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venue}{howpublished}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:eprint}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{my:access}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{booklet}{misc}
+\DeclareBibliographyAlias{online}{misc}
+
+% @incollection, @inproceedings (@conference)
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venue}{booktitle}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:pages}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{inproceedings}{incollection}
+
+% @manual, @unpublished
+\DeclareBibliographyDriver{manual}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{nocomma}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{unpublished}{manual}
+
+% @mastersthesis, @phdthesis
+\DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:thesis}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+% @proceedings
+\DeclareBibliographyDriver{proceedings}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:editor}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venuelist}{publisher}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+% @techreport (@report)
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venuelist}{institution}%
+  \usebibmacro{my:year}%
+  \printfield[my:number]{number}%
+  \setunit{\addcomma\space}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+%==================================================
+% 著者名の書式（本文中の引用）
+%==================================================
+% 英語文献  ：Reynolds / Schmid and Henningson / Berghout et al.
+% 日本語文献：塚原 / 塚原, 石田 / 塚原他
+\DeclareNameFormat{my:cite}{%
+  \usebibmacro{name:delim}{#1}%
+  \usebibmacro{name:hook}{#1}%
+  \ifbibjapanese
+    {\mkbibnamefamily{\namepartfamily}}
+    {\ifdefvoid{\namepartprefix}
+       {}
+       {\mkbibnameprefix{\namepartprefix}\bibnamedelimc}%
+     \mkbibnamefamily{\namepartfamily}}%
+  \ifthenelse{\value{listcount}=\value{liststop}}
+    {\ifmorenames
+       {\ifbibjapanese
+          {他}
+          {\addspace et al\adddot}}
+       {}}
+    {}}
+
+%==================================================
+% 引用コマンド
+%==================================================
+% 複数文献を引用したときの区切り（\citet, \citep）
+\newcommand*{\authoryearmulticitedelim}{\addsemicolon\space}
+
+% \citep の括弧．日本語の文章に合わせて全角括弧にしている．
+% 英語で執筆する場合は \mkbibparens{#1}（半角括弧）に変更する．
+% 日本語で執筆する場合でも図表のキャプションは英語なので，半角括弧で出力したい場合は \citepe を使う．
+\newcommand*{\mkcitepparens}[1]{（#1）}
+
+% 著者名（著者がいない場合は題目）
+\newbibmacro*{my:citename}{%
+  \ifnameundef{labelname}
+    {\printfield[citetitle]{labeltitle}}
+    {\printnames[my:cite]{labelname}}}
+
+% 年（同じ著者・同じ年の文献には a, b, ... を付ける）
+\newbibmacro*{my:citeyear}{%
+  \iffieldundef{labelyear}
+    {}
+    {\printfield{labelyear}\printfield{extradate}}}
+
+% Reynolds (1883)
+\newbibmacro*{my:citet}{%
+  \printtext[bibhyperref]{%
+    \usebibmacro{my:citename}%
+    \iffieldundef{labelyear}
+      {}
+      {\setunit{\addspace}%
+       \printtext[parens]{\usebibmacro{my:citeyear}}}}}
+
+% Reynolds, 1883
+\newbibmacro*{my:citep}{%
+  \printtext[bibhyperref]{%
+    \usebibmacro{my:citename}%
+    \setunit{\addcomma\space}%
+    \usebibmacro{my:citeyear}}}
+
+% [1]
+\DeclareCiteCommand{\citen}[\mkbibbrackets]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+% Reynolds (1883)
+\DeclareCiteCommand{\citet}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{my:citet}}
+  {\authoryearmulticitedelim}
+  {\usebibmacro{postnote}}
+
+% (Reynolds, 1883)
+\DeclareCiteCommand{\citep}[\mkcitepparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{my:citep}}
+  {\authoryearmulticitedelim}
+  {\usebibmacro{postnote}}
+
+% (Reynolds, 1883)（\mkcitepparens の設定によらず常に半角括弧）
+\DeclareCiteCommand{\citepe}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{my:citep}}
+  {\authoryearmulticitedelim}
+  {\usebibmacro{postnote}}
+
+% 参考文献の見出し．目次に追加し，柱を本文と同じ体裁にする．
+\defbibheading{bibliography}[\refname]{%
+  \section*{#1}%
+  \phantomsection % ハイパーリンクのズレを調整
+  \addcontentsline{toc}{section}{#1}%
+  \markboth
+    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries#1\hfill}}}}%
+    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries#1\hfill}}}}}
+
+%%% その他のパッケージ %%%
+% 単位
+\usepackage{siunitx}
+% ロゴ関連
+\usepackage{bxtexlogo}
+% 枠
+\usepackage[most]{tcolorbox}
+\tcbset{
+  fonttitle=\sffamily\bfseries, % title をゴシック体（サンセリフ体）に設定
+  enhanced,
+}
+\newtcolorbox{bluebox}[1][]{
+  colback=blue!5!white,
+  colframe=blue!75!black,
+  #1
+}
+\newtcolorbox{redbox}[1][]{
+  colback=red!5!white,
+  colframe=red!75!black,
+  #1
+}
+\newtcolorbox{greenbox}[1][]{
+  colback=green!5!white,
+  colframe=green!75!black,
+  #1
+}
+% レイアウト確認用
+% \usepackage{layout}
+% ダミーテキスト生成パッケージ（\lipsum で英文，\jalipsum で和文のダミーテキストを出力）
+\usepackage{lipsum}
+\usepackage{bxjalipsum}
+% 行番号の表示（原稿の添削などで行番号が必要なときに \linenumbers を使う）
+\usepackage[mathlines,pagewise]{lineno}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\newtheorem{remark}[theorem]{Remark}
+
+%%% 表示の変更 %%%
+% 無次元数など
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\Ma}{\mathrm{Ma}}
+\newcommand{\Nu}{\mathrm{Nu}}
+\newcommand{\Pe}{\mathrm{Pe}}
+\renewcommand{\Pr}{\mathrm{Pr}}
+% \renewcommand{\Re}{\mathrm{Re}}
+\AtBeginDocument{\renewcommand{\Re}{\mathrm{Re}}}
+\newcommand{\Ra}{\mathrm{Ra}}
+\newcommand{\Sc}{\mathrm{Sc}}
+\newcommand{\St}{\mathrm{St}}
+\newcommand{\Ta}{\mathrm{Ta}}
+\newcommand{\Wi}{\mathrm{Wi}}
+\newcommand{\rms}{\mathrm{rms}}
+
+% 図表の番号表示を変更
+\renewcommand{\figurename}{Fig.~}
+\renewcommand{\tablename}{Table~}
+
+%==================================================
+% 著者情報
+%==================================================
+
+\newcounter{authorcount}
+
+\newcommand{\authors}{}
+\newcommand{\pendingauthor}{}
+
+%------------------------------------------
+% 著者を追加
+%------------------------------------------
+
+\newcommand{\addauthor}[3]{%
+  \stepcounter{authorcount}%
+
+  \ifodd\value{authorcount}
+    % 奇数人目：
+    % 次の著者が来るまで保留
+    \gdef\pendingauthor{{#1}{#2}{#3}}%
+  \else
+    % 偶数人目：
+    % 保留中の著者と組にして authors に追加
+    \expandafter\AddAuthorPair\pendingauthor{#1}{#2}{#3}%
+    \gdef\pendingauthor{}%
+  \fi
+}
+
+%------------------------------------------
+% 2人を1行として authors に追加
+%------------------------------------------
+
+\newcommand{\AddAuthorPair}[6]{%
+  \gappto{\authors}{%
+    \AuthorBlock{#1}{#2}{#3}%
+    &
+    \AuthorBlock{#4}{#5}{#6}%
+    \\[5em]%
+  }%
+}
+
+%------------------------------------------
+% 各著者の表示形式
+%------------------------------------------
+
+\newcommand{\AuthorBlock}[3]{%
+  \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    #1\par
+    \vspace{0.5em}
+    #2\par
+    \vspace{0.5em}
+    \href{mailto:#3}{#3}
+  \end{minipage}%
+}
+
+%------------------------------------------
+% 著者情報の出力
+%------------------------------------------
+
+\newcommand{\printauthors}{%
+  \ifnum\value{authorcount}=1
+
+    % 1 人の場合
+    \expandafter\AuthorBlock\pendingauthor
+
+  \else
+
+    \begin{tabularx}{\textwidth}{
+      >{\centering\arraybackslash}X
+      >{\centering\arraybackslash}X
+    }
+
+      % 2 人組になっている著者
+      \authors
+
+      % 奇数人数なら最後の 1 人を中央に配置
+      \ifodd\value{authorcount}
+        \multicolumn{2}{c}{%
+          \expandafter\AuthorBlock\pendingauthor
+        }%
+      \fi
+
+    \end{tabularx}
+
+  \fi
+}
+
+%==================================================
+% 表紙
+%==================================================
+
+\definecolor{titleblue}{HTML}{1F4E79}
+
+\newcommand{\makecover}{%
+  \begin{titlepage}
+    \thispagestyle{empty}
+
+    \vspace*{\fill}
+
+    \begin{center}
+
+      {\color{titleblue}\rule{\textwidth}{2pt}}
+      \\\vspace{-1.4em}
+      {\color{titleblue}\rule{\textwidth}{1pt}}
+      \\\vspace{0.7em}
+      {\LARGE\bfseries
+        \DocTitle
+        \par
+      }
+      \vspace{0.7em}
+      {\color{titleblue}\rule{\textwidth}{1pt}}
+      \\\vspace{-1.3em}
+      {\color{titleblue}\rule{\textwidth}{2pt}}
+
+      \vspace{10em}
+
+      %------------------------------------------
+      % 著者
+      %------------------------------------------
+
+      {\fontsize{14pt}{16pt}\selectfont
+        \printauthors
+      }
+
+      \vspace{15em}
+
+      {\large \DocDate}
+
+    \end{center}
+
+    \vspace*{\fill}
+
+  \end{titlepage}
+
+  % 本文を 1 ページから開始
+  \setcounter{page}{1}
+}
+
+%==================================================
+% 表紙なしの場合のタイトル
+%==================================================
+
+\newcommand{\makeinlineauthor}{%
+  \begin{center}
+
+    {\LARGE\bfseries
+      \DocTitle
+      \par
+    }
+
+    \vspace{2em}
+
+      {\fontsize{14pt}{16pt}\selectfont
+        \printauthors
+      }
+
+    \vspace{1em}
+
+    \DocDate
+
+  \end{center}
+
+  \vspace{3em}
+}
+
+%==================================================
+% タイトル・著者情報を出力
+%==================================================
+
+\newcommand{\makedocumenttitle}{%
+  \ifcover
+    \makecover
+  \else
+    \makeinlineauthor
+  \fi
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% 見出し名の再定義 %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\contentsname}{目次}
+% \renewcommand{\abstractname}{概要}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ページスタイル（柱・ノンブル）の設定 %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 通常の本文ページスタイル %%%
+% 柱（節の番号と見出し）をページ上部の左に，ノンブルをページ下部の中央に表示
+\NewPageStyle{normal}{
+  running_head_position=top-left,   % 柱の位置
+  nombre_position=bottom-center,        % ノンブルの位置
+  mark_format={_section=
+    \underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries\thesection\quad#1\hfill}}}
+    },        % 柱の書式（節の番号と見出しに下線を付ける）
+  nombre={---\thepage---}, % ノンブルの内容
+  odd_running_head=_section,        % 奇数ページの柱
+  even_running_head=_section        % 偶数ページの柱
+}
+\pagestyle{normal}
+
+%%% 最初のページスタイル %%%
+% 柱は表示しない
+\NewPageStyle{cover}{
+  nombre_position=bottom-center,        % ノンブルの位置
+  nombre={---\thepage---} % ノンブルの内容
+}
+
+%%%%%% End of This File %%%%%%
