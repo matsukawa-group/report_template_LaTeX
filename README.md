@@ -4,7 +4,7 @@ LaTeX で簡単なレポートを書く際のテンプレートです．ご自�
 
 - LuaLaTeX + [jlreq](https://ctan.org/pkg/jlreq) クラスで日本語の文書を作成します．
 - 表紙（著者は複数人に対応）・目次・柱（ページ上部の節見出し）を自動で出力します．
-- 参考文献は [biblatex](https://ctan.org/pkg/biblatex) + Biber で出力し，日本語文献と英語文献で書式を自動で切り替えます．
+- 参考文献は [biblatex](https://ctan.org/pkg/biblatex) + [Biber](https://ctan.org/pkg/biber) で出力し，日本語文献と英語文献で書式を自動で切り替えます．
 - 参考文献の体裁は Typst 版のテンプレート [`report_template_Typst`](https://github.com/matsukawa-group/report_template_Typst) と同じで，`bib` ファイルも共通で使えます．
 
 使い方の詳細は [`template-manual/template-manual.pdf`](template-manual/template-manual.pdf) を参照してください．
@@ -157,8 +157,9 @@ git push origin HEAD
 また，このリポジトリの `template-manual/` のディレクトリには LaTeX の使い方に関して簡単な説明があります．
 テンプレートマニュアルを含め，説明事項の一部は以下の文献と重複する箇所があります．ご了承ください．
 
-- 奥村晴彦，黒木裕介：［改訂第9版］LaTeX美文書作成入門，技術評論社（2023）
+- 奥村晴彦，黒木裕介：［改訂第 9 版］LaTeX 美文書作成入門，技術評論社 (2023)．
 - [TeX Wiki](https://texwiki.texjp.org/)
+- [Learn LaTeX（日本語版）](https://www.learnlatex.org/ja/)
 - [Overleaf Documentation](https://www.overleaf.com/learn)
 - [`tsukahara-lab/TUS-ME_thesis_template`](https://github.com/tsukahara-lab/TUS-ME_thesis_template)
 - [`matsukawa-group/report_template_Typst`](https://github.com/matsukawa-group/report_template_Typst)（Typst 版のレポートテンプレート）
