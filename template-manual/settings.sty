@@ -594,7 +594,6 @@
 \usepackage{bxtexlogo}
 % 枠
 \usepackage[most]{tcolorbox}
-\tcbuselibrary{skins}
 \tcbset{
   fonttitle=\sffamily\bfseries, % title をゴシック体（サンセリフ体）に設定
   enhanced,
@@ -616,13 +615,11 @@
 }
 % レイアウト確認用
 % \usepackage{layout}
-% ダミーテキスト生成パッケージ
+% ダミーテキスト生成パッケージ（\lipsum で英文，\jalipsum で和文のダミーテキストを出力）
 \usepackage{lipsum}
 \usepackage{bxjalipsum}
-% 行番号の表示
+% 行番号の表示（原稿の添削などで行番号が必要なときに \linenumbers を使う）
 \usepackage[mathlines,pagewise]{lineno}
-% 文書の最終ページを確認
-\usepackage{lastpage}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -633,7 +630,6 @@
 \newtheorem{example}[theorem]{Example}
 
 \newtheorem{remark}[theorem]{Remark}
-\newtheorem{aaaaa}[theorem]{aaaaa}
 
 %%% 表示の変更 %%%
 % 無次元数など
@@ -835,50 +831,23 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
-%%% 章見出しの再定義 %%%
+%%% 見出し名の再定義 %%%
 %%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\chpre}{第}
-\newcommand{\chpost}{章}
 \renewcommand{\contentsname}{目次}
-\newcommand{\signaryname}{記号表}
 % \renewcommand{\abstractname}{概要}
-\newcommand{\acknowledgename}{謝辞}
-\providecommand{\bibname}{文献}
-\newcommand{\appname}{付録}
-
-%%% 英語で執筆する場合の設定
-% \jlreqsetup{
-%     appendix_heading = {
-%       chapter = {label_format = {Appendix~\thechapter .}}
-%     },
-% }
-
-
-%%% \author 等の再定義 %%%
-\def\thesis#1{\gdef\@thesis{#1}}
-\def\title#1{\gdef\@title{#1}}
-\def\date#1{\gdef\@date{#1}}
-\def\author#1{\gdef\@author{#1}}
-\def\coworker#1{\gdef\@coworker{#1}}
-\def\supervisor#1{\gdef\@supervisor{#1}}
-\def\cosupervisor#1{\gdef\@cosupervisor{#1}}
-\def\affiliation#1{\gdef\@affiliation{#1}}
-\def\laboratory#1{\gdef\@laboratory{#1}}
-\gdef\@date{\today}          %Default is today's date
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ページスタイル（柱・ノンブル）の設定 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% 通常の本文ページスタイル %%%
-% 柱とノンブルをそれぞれページ上部の左右に表示
-% ページ下部は何も表示しない
+% 柱（節の番号と見出し）をページ上部の左に，ノンブルをページ下部の中央に表示
 \NewPageStyle{normal}{
   running_head_position=top-left,   % 柱の位置
   nombre_position=bottom-center,        % ノンブルの位置
   mark_format={_section=
     \underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries\thesection\quad#1\hfill}}}
-    },        % 奇数ページの柱
+    },        % 柱の書式（節の番号と見出しに下線を付ける）
   nombre={---\thepage---}, % ノンブルの内容
   odd_running_head=_section,        % 奇数ページの柱
   even_running_head=_section        % 偶数ページの柱
