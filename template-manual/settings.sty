@@ -103,12 +103,489 @@
 \SetTblrInner{rowsep=0pt}
 
 %%% 文献関連 %%%
-% natbib
-\usepackage{natbib}
-% \citep の括弧を全角に変更．英語で執筆する場合はコメントアウトする．
-\renewcommand{\citep}[1]{（\citealp{#1}）}
-% 日本語で執筆する場合でも図表のキャプションは英語なので，半角括弧で出力する場合に使用するオリジナルコマンド．
-\newcommand{\citepe}[1]{(\citealp{#1})}
+% biblatex + Biber で参考文献リストを作成する．
+% Typst 版のレポートテンプレート（report_template_Typst）と同じ体裁になるように，
+% 日本語文献と英語文献で書式を自動的に切り替える．
+% 文献リストの番号付け（[1], [2], ...）と \cite の出力は biblatex 標準の numeric スタイルを土台にしている．
+%
+% 本文中の引用コマンド
+%   \cite{key}, \citen{key} → [1]
+%   \citet{key}             → Reynolds (1883)
+%   \citep{key}             → （Reynolds, 1883）
+%   \citepe{key}            → (Reynolds, 1883)（常に半角括弧）
+\usepackage[
+  backend=biber,      % バックエンドに Biber を使用
+  style=numeric,      % 番号付きの文献リストを土台にする
+  sorting=none,       % 本文中での引用順に並べる（Vancouver 方式）
+  % sorting=nyt,      % 著者名のアルファベット順（Harvard 方式）にしたい場合は上の行と入れ替える
+  maxbibnames=99,     % 文献リストでは著者を全員表示する
+  minbibnames=99,
+  maxcitenames=2,     % 本文中の引用では著者 3 名以上を「et al.」「他」で省略する
+  mincitenames=1,
+  giveninits=true,    % 英語文献の名（given name）はイニシャルにする
+  useprefix=true,     % van, de などの前置詞を姓の前に出力する
+  uniquename=false,
+  uniquelist=false,
+  labeldateparts=true,% 同じ著者・同じ年の文献に 2020a, 2020b を付ける
+  isbn=false,
+  ]{biblatex}
+
+% 文献番号 [1] と本文の間隔（jlreq では \labelsep が 0 になるため明示的に指定）
+\setlength{\biblabelsep}{0.5em}
+
+% 長い URL や DOI を英数字の途中でも改行できるようにし，
+% URL の文字間が間延びしないようにする
+\setcounter{biburlnumpenalty}{3000}
+\setcounter{biburllcpenalty}{3000}
+\setcounter{biburlucpenalty}{3000}
+\biburlbigskip=0mu\relax
+
+%==================================================
+% bib ファイルの読み替え（Biber）
+%==================================================
+% - yomi   : 日本語文献の読み．sortname として並べ替えに使う．
+% - access : Web ページの参照日．usera として保持する．
+% - 著者名や題目などに日本語（漢字・ひらがな・カタカナ）を含む文献は
+%   langid = {japanese} として扱う．bib ファイル側で langid が
+%   指定されている場合はそちらを優先する．
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=yomi, fieldtarget=sortname]
+    }
+    \map{
+      \step[fieldsource=access, fieldtarget=usera]
+    }
+    % Typst 版と bib ファイルを共用できるように，エスケープされていない & を \& に置き換える
+    \map{
+      \step[fieldsource=title,        match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=booktitle,    match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=journal,      match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=publisher,    match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=howpublished, match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+      \step[fieldsource=note,         match=\regexp{([^\\])\x{26}}, replace=\regexp{$1\\\x{26}}]
+    }
+    \map{\step[fieldsource=author,       match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=editor,       match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=title,        match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=journal,      match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=journaltitle, match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=booktitle,    match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=publisher,    match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=howpublished, match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=school,       match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=institution,  match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=organization, match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+    \map{\step[fieldsource=usera,        match=\regexp{[\p{Han}\p{Hiragana}\p{Katakana}]}, final]\step[fieldset=langid, fieldvalue=japanese]}
+  }
+}
+
+%==================================================
+% 言語の判定
+%==================================================
+\newcommand*{\ifbibjapanese}{\iffieldequalstr{langid}{japanese}}
+
+% 著者名の区切り
+%   英語文献  ：A, B and C
+%   日本語文献：A, B, C
+\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+\DeclareDelimFormat{finalnamedelim}{%
+  \ifbibjapanese
+    {\addcomma\space}
+    {\addspace and\space}}
+
+%==================================================
+% 著者名の書式
+%==================================================
+% 英語文献  ：Matsukawa, Y.
+% 日本語文献：松川裕樹
+\DeclareNameFormat{my:bib}{%
+  \ifbibjapanese
+    {\usebibmacro{name:delim}{#1}%
+     \usebibmacro{name:hook}{#1}%
+     \mkbibnamefamily{\namepartfamily}%
+     \mkbibnamegiven{\namepartgiven}}
+    {\ifgiveninits
+       {\usebibmacro{name:family-given}
+         {\namepartfamily}
+         {\namepartgiveni}
+         {\namepartprefix}
+         {\namepartsuffix}}
+       {\usebibmacro{name:family-given}
+         {\namepartfamily}
+         {\namepartgiven}
+         {\namepartprefix}
+         {\namepartsuffix}}}}
+\DeclareNameAlias{author}{my:bib}
+\DeclareNameAlias{editor}{my:bib}
+
+%==================================================
+% 各フィールドの書式
+%==================================================
+% 題目
+%   英語文献  ："Title," （先頭以外を小文字にする sentence case）
+%   日本語文献：「題目」,
+\DeclareFieldFormat{my:title}{%
+  \ifbibjapanese
+    {「#1」}
+    {\mkbibquote{\MakeSentenceCase*{#1}}}}
+
+% 誌名・書名・出版社など（英語文献のみイタリック体）
+\DeclareFieldFormat{my:emph}{%
+  \ifbibjapanese
+    {#1}
+    {\mkbibemph{#1}}}
+
+\DeclareListFormat{my:emph}{%
+  \usebibmacro{list:delim}{#1}%
+  \ifbibjapanese
+    {#1}
+    {\mkbibemph{#1}}%
+  \usebibmacro{list:andothers}}
+
+\DeclareFieldFormat{my:volume}{\mkbibbold{#1}}
+\DeclareFieldFormat{my:number}{\mkbibparens{#1}}
+\DeclareFieldFormat{my:pages}{#1}
+\DeclareFieldFormat{my:note}{\mkbibparens{#1}}
+\DeclareFieldFormat{doi}{%
+  DOI\addcolon\space
+  \ifhyperref
+    {\href{https://doi.org/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}}
+\DeclareFieldFormat{url}{URL\addcolon\space\textless\url{#1}\textgreater}
+\DeclareFieldFormat{usera}{\mkbibparens{accessed on\addcolon\space #1}}
+\DeclareFieldFormat{eprint:arxiv}{%
+  arXiv\addcolon\space
+  \ifhyperref
+    {\href{https://arxiv.org/abs/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}}
+
+%==================================================
+% 各要素の出力マクロ
+%==================================================
+% 著者
+\newbibmacro*{my:author}{%
+  \ifnameundef{author}
+    {}
+    {\printnames{author}%
+     \setunit{\addcomma\space}}}
+
+% 編者（英語文献：Name ed.，日本語文献：Name編）
+\newbibmacro*{my:editor}{%
+  \ifnameundef{editor}
+    {}
+    {\printnames{editor}%
+     \ifbibjapanese
+       {\printtext{編}}
+       {\printtext{\addspace ed\adddot}}%
+     \setunit{\addcomma\space}}}
+
+% 題目．英語文献では "Title," のように閉じ引用符の内側にカンマを入れる．
+% 引数に nocomma を与えると題目の後ろにカンマを付けない（@manual, @unpublished）．
+\newbibmacro*{my:title}[1]{%
+  \iffieldundef{title}
+    {}
+    {\ifbibjapanese
+       {\setunit{\addcomma}}% 「の前には空白を入れない
+       {}%
+     \ifstrequal{#1}{nocomma}
+       {\printfield[my:title]{title}}
+       {\ifbibjapanese
+          {\printfield[my:title]{title}\printtext{,}}
+          {\printtext{\mkbibquote{\printfield[my:titlecase]{title},}}}}%
+     \setunit{\addspace}}}
+
+\DeclareFieldFormat{my:titlecase}{\MakeSentenceCase*{#1}}
+
+% 誌名・書名などの「掲載先」
+\newbibmacro*{my:venue}[1]{%
+  \iffieldundef{#1}
+    {}
+    {\printfield[my:emph]{#1}%
+     \setunit{\addcomma\space}}}
+
+% 出版社・機関など（biblatex ではリスト型のフィールド）
+\newbibmacro*{my:venuelist}[1]{%
+  \iflistundef{#1}
+    {}
+    {\printlist[my:emph]{#1}%
+     \setunit{\addcomma\space}}}
+
+% 年（同じ著者・同じ年の文献には a, b, ... を付ける）
+\newbibmacro*{my:year}{%
+  \iffieldundef{year}
+    {}
+    {\setunit{\addspace}%
+     \printtext[parens]{\printfield{year}\printfield{extradate}}%
+     \setunit{\addcomma\space}}}
+
+% 巻・号（例：34(7)）
+\newbibmacro*{my:volume+number}{%
+  \printfield[my:volume]{volume}%
+  \setunit*{}%
+  \printfield[my:number]{number}%
+  \setunit{\addcomma\space}}
+
+% ページ
+\newbibmacro*{my:pages}{%
+  \printfield[my:pages]{pages}%
+  \setunit{\addcomma\space}}
+
+% 注記
+\newbibmacro*{my:note}{%
+  \printfield[my:note]{note}%
+  \setunit{\addcomma\space}}
+
+% arXiv
+\newbibmacro*{my:eprint}{%
+  \iffieldundef{eprint}
+    {}
+    {\printfield[eprint:arxiv]{eprint}%
+     \setunit{\addcomma\space}}}
+
+% DOI（DOI が無い場合のみ URL を出力する）
+\newbibmacro*{my:doi+url}{%
+  \iffieldundef{doi}
+    {\printfield{url}}
+    {\printfield{doi}}%
+  \setunit{\addcomma\space}}
+
+% Web ページの参照日
+\newbibmacro*{my:access}{%
+  \printfield{usera}%
+  \setunit{\addcomma\space}}
+
+% 学位論文の種別
+%   英語文献  ："Title," Master's Thesis, School
+%   日本語文献：「題目」, School修士論文
+\newbibmacro*{my:thesis}{%
+  \ifbibjapanese
+    {\printlist{institution}%
+     \iffieldequalstr{type}{mathesis}{\printtext{修士論文}}{}%
+     \iffieldequalstr{type}{phdthesis}{\printtext{博士論文}}{}}
+    {\iffieldequalstr{type}{mathesis}
+       {\printtext{\mkbibemph{Master's Thesis}}\setunit{\addcomma\space}}
+       {}%
+     \iffieldequalstr{type}{phdthesis}
+       {\printtext{\mkbibemph{Ph.D. Dissertation}}\setunit{\addcomma\space}}
+       {}%
+     \printlist[my:emph]{institution}}%
+  \setunit{\addcomma\space}}
+
+%==================================================
+% 各エントリーのドライバ
+%==================================================
+% @article
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venue}{journaltitle}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:volume+number}%
+  \usebibmacro{my:pages}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+% @book, @inbook
+\DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:editor}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venuelist}{publisher}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:volume+number}%
+  \usebibmacro{my:pages}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{inbook}{book}
+
+% @booklet, @misc, @online
+\DeclareBibliographyDriver{misc}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venue}{howpublished}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:eprint}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{my:access}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{booklet}{misc}
+\DeclareBibliographyAlias{online}{misc}
+
+% @incollection, @inproceedings (@conference)
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venue}{booktitle}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:pages}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{inproceedings}{incollection}
+
+% @manual, @unpublished
+\DeclareBibliographyDriver{manual}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{nocomma}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{unpublished}{manual}
+
+% @mastersthesis, @phdthesis
+\DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:thesis}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+% @proceedings
+\DeclareBibliographyDriver{proceedings}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:editor}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venuelist}{publisher}%
+  \usebibmacro{my:year}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+% @techreport (@report)
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{my:author}%
+  \usebibmacro{my:title}{}%
+  \usebibmacro{my:venuelist}{institution}%
+  \usebibmacro{my:year}%
+  \printfield[my:number]{number}%
+  \setunit{\addcomma\space}%
+  \usebibmacro{my:note}%
+  \usebibmacro{my:doi+url}%
+  \usebibmacro{finentry}}
+
+%==================================================
+% 著者名の書式（本文中の引用）
+%==================================================
+% 英語文献  ：Reynolds / Schmid and Henningson / Berghout et al.
+% 日本語文献：塚原 / 塚原, 石田 / 塚原他
+\DeclareNameFormat{my:cite}{%
+  \usebibmacro{name:delim}{#1}%
+  \usebibmacro{name:hook}{#1}%
+  \ifbibjapanese
+    {\mkbibnamefamily{\namepartfamily}}
+    {\ifdefvoid{\namepartprefix}
+       {}
+       {\mkbibnameprefix{\namepartprefix}\bibnamedelimc}%
+     \mkbibnamefamily{\namepartfamily}}%
+  \ifthenelse{\value{listcount}=\value{liststop}}
+    {\ifmorenames
+       {\ifbibjapanese
+          {他}
+          {\addspace et al\adddot}}
+       {}}
+    {}}
+
+%==================================================
+% 引用コマンド
+%==================================================
+% 複数文献を引用したときの区切り（\citet, \citep）
+\newcommand*{\authoryearmulticitedelim}{\addsemicolon\space}
+
+% \citep の括弧．日本語の文章に合わせて全角括弧にしている．
+% 英語で執筆する場合は \mkbibparens{#1}（半角括弧）に変更する．
+% 日本語で執筆する場合でも図表のキャプションは英語なので，半角括弧で出力したい場合は \citepe を使う．
+\newcommand*{\mkcitepparens}[1]{（#1）}
+
+% 著者名（著者がいない場合は題目）
+\newbibmacro*{my:citename}{%
+  \ifnameundef{labelname}
+    {\printfield[citetitle]{labeltitle}}
+    {\printnames[my:cite]{labelname}}}
+
+% 年（同じ著者・同じ年の文献には a, b, ... を付ける）
+\newbibmacro*{my:citeyear}{%
+  \iffieldundef{labelyear}
+    {}
+    {\printfield{labelyear}\printfield{extradate}}}
+
+% Reynolds (1883)
+\newbibmacro*{my:citet}{%
+  \printtext[bibhyperref]{%
+    \usebibmacro{my:citename}%
+    \iffieldundef{labelyear}
+      {}
+      {\setunit{\addspace}%
+       \printtext[parens]{\usebibmacro{my:citeyear}}}}}
+
+% Reynolds, 1883
+\newbibmacro*{my:citep}{%
+  \printtext[bibhyperref]{%
+    \usebibmacro{my:citename}%
+    \setunit{\addcomma\space}%
+    \usebibmacro{my:citeyear}}}
+
+% [1]
+\DeclareCiteCommand{\citen}[\mkbibbrackets]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+% Reynolds (1883)
+\DeclareCiteCommand{\citet}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{my:citet}}
+  {\authoryearmulticitedelim}
+  {\usebibmacro{postnote}}
+
+% (Reynolds, 1883)
+\DeclareCiteCommand{\citep}[\mkcitepparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{my:citep}}
+  {\authoryearmulticitedelim}
+  {\usebibmacro{postnote}}
+
+% (Reynolds, 1883)（\mkcitepparens の設定によらず常に半角括弧）
+\DeclareCiteCommand{\citepe}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{my:citep}}
+  {\authoryearmulticitedelim}
+  {\usebibmacro{postnote}}
+
+% 参考文献の見出し．目次に追加し，柱を本文と同じ体裁にする．
+\defbibheading{bibliography}[\refname]{%
+  \section*{#1}%
+  \phantomsection % ハイパーリンクのズレを調整
+  \addcontentsline{toc}{section}{#1}%
+  \markboth
+    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries#1\hfill}}}}%
+    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries#1\hfill}}}}}
 
 %%% その他のパッケージ %%%
 % 単位
@@ -366,7 +843,7 @@
 \newcommand{\signaryname}{記号表}
 % \renewcommand{\abstractname}{概要}
 \newcommand{\acknowledgename}{謝辞}
-\renewcommand{\bibname}{文献}
+\providecommand{\bibname}{文献}
 \newcommand{\appname}{付録}
 
 %%% 英語で執筆する場合の設定
@@ -402,7 +879,7 @@
   mark_format={_section=
     \underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries\thesection\quad#1\hfill}}}
     },        % 奇数ページの柱
-  nombre={\thepage/\pageref{LastPage}}, % ノンブルの内容
+  nombre={---\thepage---}, % ノンブルの内容
   odd_running_head=_section,        % 奇数ページの柱
   even_running_head=_section        % 偶数ページの柱
 }
@@ -412,29 +889,7 @@
 % 柱は表示しない
 \NewPageStyle{cover}{
   nombre_position=bottom-center,        % ノンブルの位置
-  nombre={\thepage/\pageref{LastPage}} % ノンブルの内容
+  nombre={---\thepage---} % ノンブルの内容
 }
-
-%%% 参考文献用ページスタイル %%%
-% 柱の出力が思い通りにいかない
-% \NewPageStyle{bibliography}{
-%   running_head_position=top-left,   % 柱の位置
-%   nombre_position=top-right,        % ノンブルの位置
-%   nombre={\thepage},%               % ノンブルの内容
-%   odd_running_head={\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}},        % 奇数ページの柱
-%   even_running_head={\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}        % 偶数ページの柱
-% }
-% 参考文献の定義 \biblist
-% \newcommand\biblist{%
-%   \clearpage
-%   \phantomsection % ハイパーリンクのズレを調整
-%   \renewcommand\UrlFont{\rmfamily}  % 参考文献内の URL 表示をタイプライター調にしない
-%   \nocite{*}  % \nocite{*}が有効のとき，引用していない文献も含めて全て表示
-%   \markboth{% % なぜか参考文献 5 ページ目以降で柱の出力がおかしくなるのでここで追加設定
-%   \underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}%
-%   {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}
-%   \pagestyle{bibliography}
-%   \addcontentsline{toc}{chapter}{\bibname}  % 目次に「文献」を追加
-% }
 
 %%%%%% End of This File %%%%%%
