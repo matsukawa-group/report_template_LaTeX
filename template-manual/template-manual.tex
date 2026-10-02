@@ -977,15 +977,14 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 \end{itemize}
 
 どちらの方式で書いても構いませんが，レポート全体を通して一貫した引用方法を採用するようにしてください．
-このレポートテンプレートでは \href{https://ctan.org/pkg/biblatex}{\texttt{biblatex}} パッケージと Biber を利用して，BibTeX 形式の文献データベースから参考文献を出力しています．
-文献の書式は，Typst 版のレポートテンプレート \href{https://github.com/matsukawa-group/report_template_Typst}{\texttt{report\_template\_Typst}} と同じ体裁で出力するように \verb|settings.sty| 内で設定しており，日本語文献と英語文献で異なるスタイルを自動的に適用します．
+このレポートテンプレートでは \href{https://ctan.org/pkg/biblatex}{\texttt{biblatex}} パッケージと \href{https://ctan.org/pkg/biber}{Biber} を利用して，\BibTeX 形式の文献データベースから参考文献を出力しています．
 文献リストは標準では本文での登場順（Vancouver 方式）で並びますが，\verb|settings.sty| 内の \verb|sorting=none| を \verb|sorting=nyt| に変更すると著者名のアルファベット順（Harvard 方式）に並べ替えられます．
 
 \subsection{\texttt{bib} ファイルについて}
 \label{ssec:bib-file}
 
 ユーザー側で書誌情報の管理をするためのファイルが \verb|bib| ファイルです．
-\verb|bib| ファイルに書かれた書誌情報をもとにして，\LaTeX では BibTeX/biblatex の機能を使用して文献リストを自動で作成します．
+\verb|bib| ファイルに書かれた書誌情報をもとにして，\LaTeX では \BibTeX/biblatex の機能を使用して文献リストを自動で作成します．
 \verb|bib| ファイルの書き方は \href{https://github.com/matsukawa-group/Meiji-mech_thesis_template_Typst}{\texttt{Meiji-mech\_thesis\_template\_Typst}} 内の \href{https://github.com/matsukawa-group/Meiji-mech_thesis_template_Typst/blob/main/template-manual/template-manual.pdf}{\texttt{template-manual.pdf}} で詳細に書いてあるのでそちらをよく読んでください．
 このテンプレートは Typst 版のテンプレートと同じ \verb|bib| ファイルをそのまま使えるようにしています．
 ウェブ上にも \verb|bib| ファイルの書き方を解説しているサイトはたくさんあるので，そちらも参考にしてください．
@@ -999,7 +998,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 }
 \end{lstlisting}
 
-だいたいの雑誌論文のウェブサイトでは BibTeX 形式で書誌情報を出力できる機能があるのでそこから \verb|bib| ファイルをダウンロードします．
+だいたいの雑誌論文のウェブサイトでは \BibTeX 形式で書誌情報を出力できる機能があるのでそこから \verb|bib| ファイルをダウンロードします．
 もちろん，ダウンロードした \verb|bib| ファイルを自分で書き換えることもできますし，自分で一から \verb|bib| ファイルを作成することも可能です．
 使用する \verb|bib| ファイルはプリアンブルで \verb|\addbibresource{bibliography.bib}| のように指定します．
 
