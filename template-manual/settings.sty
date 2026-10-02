@@ -879,7 +879,7 @@
   mark_format={_section=
     \underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries\thesection\quad#1\hfill}}}
     },        % 奇数ページの柱
-  nombre={\thepage/\pageref{LastPage}}, % ノンブルの内容
+  nombre={---\thepage---}, % ノンブルの内容
   odd_running_head=_section,        % 奇数ページの柱
   even_running_head=_section        % 偶数ページの柱
 }
@@ -889,29 +889,7 @@
 % 柱は表示しない
 \NewPageStyle{cover}{
   nombre_position=bottom-center,        % ノンブルの位置
-  nombre={\thepage/\pageref{LastPage}} % ノンブルの内容
+  nombre={---\thepage---} % ノンブルの内容
 }
-
-%%% 参考文献用ページスタイル %%%
-% 柱の出力が思い通りにいかない
-% \NewPageStyle{bibliography}{
-%   running_head_position=top-left,   % 柱の位置
-%   nombre_position=top-right,        % ノンブルの位置
-%   nombre={\thepage},%               % ノンブルの内容
-%   odd_running_head={\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}},        % 奇数ページの柱
-%   even_running_head={\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}        % 偶数ページの柱
-% }
-% 参考文献の定義 \biblist
-% \newcommand\biblist{%
-%   \clearpage
-%   \phantomsection % ハイパーリンクのズレを調整
-%   \renewcommand\UrlFont{\rmfamily}  % 参考文献内の URL 表示をタイプライター調にしない
-%   \nocite{*}  % \nocite{*}が有効のとき，引用していない文献も含めて全て表示
-%   \markboth{% % なぜか参考文献 5 ページ目以降で柱の出力がおかしくなるのでここで追加設定
-%   \underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}%
-%   {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to 0.9\columnwidth{\bfseries\bibname\hfill}}}}
-%   \pagestyle{bibliography}
-%   \addcontentsline{toc}{chapter}{\bibname}  % 目次に「文献」を追加
-% }
 
 %%%%%% End of This File %%%%%%
