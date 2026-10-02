@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
 %%%                   report_template_LaTeX
-%%%                          main.tex
+%%%                    template-manual.tex
 %%%   <https://github.com/matsukawa-group/report_template_LaTeX>
 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -342,7 +342,7 @@ $sinx$ などと書くことのないように気をつけましょう．
 
 \clearpage
 \subsubsection{\texttt{physics2} パッケージ}
-\label{ssec:physics2}
+\label{sssec:physics2}
 
 \begin{tcolorbox}[title={数式入力を簡略化するコマンド例（\texttt{physics2}, \texttt{fixdif}, \texttt{derivative} パッケージ）}]
     \begin{tabular}{lll}
@@ -370,7 +370,7 @@ $sinx$ などと書くことのないように気をつけましょう．
         \rule[-16pt]{0pt}{16pt}
         \verb|\odv{}{x}|, \verb|\odv{f}{x}|, \verb|\odv[order=n]{f}{x}|  & $\displaystyle\odv{}{x}$, $\displaystyle\odv{f}{x}$, $\displaystyle\odv[order=n]{f}{x}$ \\
         \rule[-16pt]{0pt}{16pt}
-        \verb|\pdv{}{x}|, \verb|\pdv{f}{x}|, \verb|\pdv{f}{x,y}|, \verb|\odv[order=n]{f}{x}|  & $\displaystyle\pdv{}{x}$, $\displaystyle\pdv{f}{x}$, $\displaystyle\pdv{f}{x,y}$, $\displaystyle\pdv[order=n]{f}{x}$ \\
+        \verb|\pdv{}{x}|, \verb|\pdv{f}{x}|, \verb|\pdv{f}{x,y}|, \verb|\pdv[order=n]{f}{x}|  & $\displaystyle\pdv{}{x}$, $\displaystyle\pdv{f}{x}$, $\displaystyle\pdv{f}{x,y}$, $\displaystyle\pdv[order=n]{f}{x}$ \\
         \rule[-16pt]{0pt}{16pt}
         \verb|\mdv{}{x}|, \verb|\mdv{f}{x}|, \verb|\mdv[order=n]{f}{x}|  & $\displaystyle\mdv{}{x}$, $\displaystyle\mdv{f}{x}$, $\displaystyle\mdv[order=n]{f}{x}$ \\
     \end{tabular}
@@ -423,13 +423,13 @@ $sinx$ などと書くことのないように気をつけましょう．
 式番号を振らなくていい行は \verb|\notag| コマンドを使用します．
 \begin{align}
     \varepsilon\left.\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right|_{z=0} &+ \varepsilon^2\left[\pdv[order=2]{\tilde{\phi}_2}{t} + g\pdv{\tilde{\phi}_2}{z} + \tilde{\eta}_1\pdv{}{z}\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right. \notag \\
-    &\left.\left.+ \pdv{}{t}\ab\{\ab(\pdv{\tilde{\phi}_1}{x}) + \ab(\pdv{\tilde{\phi}_1}{z})^2\}\right]\right|_{z=0} = 0
+    &\left.\left.+ \pdv{}{t}\ab\{\ab(\pdv{\tilde{\phi}_1}{x})^2 + \ab(\pdv{\tilde{\phi}_1}{z})^2\}\right]\right|_{z=0} = 0
     \label{eq:multiple-lines}
 \end{align}
 \begin{lstlisting}[language=TeX]
 \begin{align}
     \varepsilon\left.\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right|_{z=0} &+ \varepsilon^2\left[\pdv[order=2]{\tilde{\phi}_2}{t} + g\pdv{\tilde{\phi}_2}{z} + \tilde{\eta}_1\pdv{}{z}\ab(\pdv[order=2]{\tilde{\phi}_1}{t} + g\pdv{\tilde{\phi}_1}{z})\right. \notag \\
-    &\left.\left.+ \pdv{}{t}\ab\{\ab(\pdv{\tilde{\phi}_1}{x}) + \ab(\pdv{\tilde{\phi}_1}{z})^2\}\right]\right|_{z=0} = 0
+    &\left.\left.+ \pdv{}{t}\ab\{\ab(\pdv{\tilde{\phi}_1}{x})^2 + \ab(\pdv{\tilde{\phi}_1}{z})^2\}\right]\right|_{z=0} = 0
     \label{eq:multiple-lines}
 \end{align}
 \end{lstlisting}
@@ -472,7 +472,7 @@ $sinx$ などと書くことのないように気をつけましょう．
 \label{ssec:figure}
 
 \subsubsection{図を1枚だけ配置する方法}
-\label{sssec:figure_sigle}
+\label{sssec:figure_single}
 
 ここでは図を 1 枚だけ配置する方法を紹介します．
 
@@ -516,7 +516,7 @@ $sinx$ などと書くことのないように気をつけましょう．
 文章中で引用する際は \verb|図~\ref{fig:one_figure}| のように書きます．
 すると図~\ref{fig:one_figure}のように出力されます．
 ハイパーリンクも埋め込まれているので該当する図が遠く離れた位置にあっても便利です．
-ここで「図」と番号の間にチルダ \verb|~| を入れているのはここでの改行を防止を目的としています．
+ここで「図」と番号の間にチルダ \verb|~| を入れているのはここでの改行の防止を目的としています．
 
 \begin{tcolorbox}[title={\texttt{\textbackslash includegraphics} で図の大きさの指定によく使うコマンド}]
     【指定するもの】\\
@@ -563,7 +563,7 @@ $sinx$ などと書くことのないように気をつけましょう．
 \end{tcolorbox}
 
 また，\verb|subfigure| 環境を使うことでそれぞれのパネルにラベルを付けることができます．
-参照時には \verb|\ref{fig:two_figures}| と入力すると \ref{fig:two_figures} のように図全体の番号のみ，\verb|\subref{subfig:four_figures_a}| と入力すると \subref{subfig:two_figures_a} のようにパネルの番号のみが出力されます．
+参照時には \verb|\ref{fig:two_figures}| と入力すると \ref{fig:two_figures} のように図全体の番号のみ，\verb|\subref{subfig:two_figures_a}| と入力すると \subref{subfig:two_figures_a} のようにパネルの番号のみが出力されます．
 図~\ref{fig:two_figures} のように出力したい場合は \verb|図~\ref{fig:two_figures}| とすればよいですが，仮に図~\ref{fig:two_figures}(\subref{subfig:two_figures_a}) のように出力したい場合は \verb|図~\ref{fig:two_figures}(\subref{subfig:two_figures_a})| とします．
 このとき，\verb|\subref{}| 前後の括弧 \verb|()| を忘れないでください．
 仮に \verb|\ref{subfig:two_figures_a}| のようにパネルを \verb|\ref{}| コマンドで直接指定してあげると \ref{subfig:two_figures_a} のように図番号とパネル番号が括弧無しで出力されます．
@@ -671,7 +671,7 @@ $sinx$ などと書くことのないように気をつけましょう．
         \centering
         \includegraphics[width=\columnwidth]{example-image}
         \caption{Lower-right figure caption.}
-        \label{subfig:four_figures_c2}
+        \label{subfig:four_figures_d}
     \end{subfigure}
     \caption{Four figures placed in a $2 \times 2$ grid.}
     \label{fig:four_figures}
@@ -692,7 +692,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 ここでは \verb|tabular| 環境を用いた表作成の方法と \verb|tblr| 環境を用いた表作成の方法の両方を記載します．
 \verb|tabular| 環境は古くから存在している表作成の方法ですが，カスタマイズ性が低く，非常に使いにくいです．
 しかし，\href{https://ctan.org/pkg/tabularray}{\texttt{tabularray}} パッケージ\footnote{\LaTeX3 を利用した新しいパッケージです．}でサポートされている \verb|tblr| 環境は非常にカスタマイズ性が高く，\verb|tabular| 環境で非常に難しかったセル結合も容易に行えます．
-\verb|tabluar| 環境は現在でも広く使われているためこのテンプレートでも説明しますが，皆さんが論文等を書くときは是非 \verb|tblr| 環境を使ってみてください．
+\verb|tabular| 環境は現在でも広く使われているためこのテンプレートでも説明しますが，皆さんが論文等を書くときは是非 \verb|tblr| 環境を使ってみてください．
 
 \subsubsection{\texttt{tabular} 環境を用いた表}
 \label{sssec:tabular}
@@ -701,7 +701,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 \begin{table}[t]
     \centering
     \caption{Sample table (using the \texttt{tabular} environment).}
-    \label{table:tabular}
+    \label{tb:tabular}
     \begin{tabular}{lcr} \hline\hline
         \multicolumn{1}{c}{学会名}  & 会員種別  & \multicolumn{1}{c}{年会費} \\ \hline
         \multicolumn{3}{c}{実在する学会} \\ \hline
@@ -717,7 +717,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 \end{table}
 \end{lstlisting}
 
-\verb|tabular| 環境を使用した表のサンプルを表~\ref{table:tabular} に示します．
+\verb|tabular| 環境を使用した表のサンプルを表~\ref{tb:tabular} に示します．
 表を作成するときは \verb|table| 環境の中に \verb|tabular| 環境を作ります．
 \verb|table| 環境は，表やキャプション，ラベルを全て含めた表全体の制御を行い，\verb|tabular| 環境は表の各セルの制御を行います．
 \verb|table| 環境では \verb|figure| 環境と同様，\verb|h|, \verb|t|, \verb|b|, \verb|p|, \verb|H| による位置制御を行います．
@@ -730,7 +730,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
     \item \verb|r|\quad 右揃え（\textbf{r}ight）
 \end{itemize}
 
-表~\ref{table:tabular} の場合は \texttt{\{lcr\}} としています．
+表~\ref{tb:tabular} の場合は \texttt{\{lcr\}} としています．
 この場合，左の列から左寄せ・中央寄せ・右寄せになります．
 ここで \texttt{\{l|c|r\}} のように縦棒（バーティカルライン）\verb||| を入れると表に縦罫線を入れられます．
 この場合，1 列目と 2 列目の間，2 列目と 3 列目の間に縦罫線を入れます．
@@ -741,7 +741,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 \begin{table}[t]
     \centering
     \caption{Sample table (using the \texttt{tabular} environment).}
-    \label{table:tabular}
+    \label{tb:tabular}
     \begin{tabular}{lcr} \hline\hline
         \multicolumn{1}{c}{学会名}  & 会員種別  & \multicolumn{1}{c}{年会費} \\ \hline
         \multicolumn{3}{c}{実在する学会} \\ \hline
@@ -759,13 +759,13 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 
 次に表のセル結合について説明します．
 行方向のセル結合を行う際は \verb|\multicolumn{結合する列数}{揃え位置}{セルの中身}| を使います（結合するセルは列）．
-表~\ref{table:tabular} の 2 行目で使用している \verb|\multicolumn{3}{c}{実在する学会}| は「横並びの 3 つのセルを結合し，『実在する学会』という文字列を中央揃えで配置する」命令です．
-1 行 1 列目では \texttt{\textbackslash multicolumn\{1\}\{c|\}\{学会名\}} としていますが，これは本来左揃えになっている 1 列目を，このセルだけ例外的に中央揃えにするために使用しています．
+表~\ref{tb:tabular} の 2 行目で使用している \verb|\multicolumn{3}{c}{実在する学会}| は「横並びの 3 つのセルを結合し，『実在する学会』という文字列を中央揃えで配置する」命令です．
+1 行 1 列目では \verb|\multicolumn{1}{c}{学会名}| としていますが，これは本来左揃えになっている 1 列目を，このセルだけ例外的に中央揃えにするために使用しています．
 面白い使い方ですね．
 列方向のセル結合を行う際は \verb|\multirow{結合する行数}{幅}{セルの中身}| を使います（結合するセルは行）．
-表~\ref{table:tabular} の 7 行 1 列目で使用している \verb|\multirow{4}{*}{日本架空学会}| は「縦並びの 4 つのセルを結合し，『日本架空学会』という文字列を幅指定なしで配置する」命令です．
+表~\ref{tb:tabular} の 7 行 1 列目で使用している \verb|\multirow{4}{*}{日本架空学会}| は「縦並びの 4 つのセルを結合し，『日本架空学会』という文字列を幅指定なしで配置する」命令です．
 列方向のセル結合を行う際は横罫線を消す必要があります．
-\verb|\cline{x-y}| という命令を使うと，x 列目から y 列目に横罫線を入れるコマンドです．
+\verb|\cline{x-y}| は x 列目から y 列目に横罫線を入れるコマンドです．
 \verb|\hline| がその行全体に横罫線を入れるのに対して \verb|\cline{}| はその行に部分的な横罫線を入れるコマンドです．
 横罫線を消すことでセル結合したような出力を得られます．
 
@@ -787,7 +787,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 \begin{table}[t]
     \centering
     \caption{Sample table (using the \texttt{tblr} environment).}
-    \label{table:tblr}
+    \label{tb:tblr}
     \begin{tblr}{
         colspec = {lcr},    % 文字の揃え位置制御
         hlines,             % 横罫線の表示
@@ -811,7 +811,7 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 \begin{table}[t]
     \centering
     \caption{Sample table (using the \texttt{tblr} environment).}
-    \label{table:tblr}
+    \label{tb:tblr}
     \begin{tblr}{
         colspec = {lcr},    % 文字の揃え位置制御
         hlines,             % 横罫線の表示
@@ -831,13 +831,13 @@ Overleaf の表作成機能はかなり便利なので，ローカルで \LaTeX 
 \end{table}
 \end{lstlisting}
 
-表~\ref{table:tblr} は \verb|tblr| 環境を用いた表のサンプルです．
-見た目が表~\ref{table:tabular} と同じになるようにしています．
+表~\ref{tb:tblr} は \verb|tblr| 環境を用いた表のサンプルです．
+見た目が表~\ref{tb:tabular} と同じになるようにしています．
 基本的な使い方は \verb|tabular| 環境に準じています．
 大きな違いは罫線の扱いです．
 \verb|\begin{tblr}| の直後で \verb|hlines| を入れると全ての横罫線が，\verb|vlines| を入れると全ての縦罫線が表示されます．
 また，セル結合の方法も異なります．
-表~\ref{table:tblr} の 2 行目の \verb|\SetCell[c=3]{c} 実在する学会| は「横並びの 3 つのセルを結合し，『実在する学会』という文字列を中央揃えで配置する」命令です．
+表~\ref{tb:tblr} の 2 行目の \verb|\SetCell[c=3]{c} 実在する学会| は「横並びの 3 つのセルを結合し，『実在する学会』という文字列を中央揃えで配置する」命令です．
 1 行 1 列目では \verb|\SetCell{c} 学会名| とすることでこのセルだけ中央揃えに変えています．
 7 行 1 列目の \verb|\SetCell[r=4]{l} 日本架空学会| は「縦並びの 4 つのセルを結合し，『日本架空学会』という文字列を左揃えで配置する」命令です．
 
