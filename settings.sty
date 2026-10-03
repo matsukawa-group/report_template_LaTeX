@@ -86,7 +86,7 @@
 % 図の読み込みに必要
 \usepackage{graphicx}
 %%% 関連する図を並べる際に使用
-% Fig. xxx の後ろをコロンではなくスペースに設定
+% Figure xxx の後ろをコロンではなくスペースに設定
 \usepackage[labelsep=quad]{caption}
 % サブ図のキャプションの出力を (a) xxx に設定
 \usepackage[labelsep=space]{subcaption}
@@ -584,8 +584,8 @@
   \phantomsection % ハイパーリンクのズレを調整
   \addcontentsline{toc}{section}{#1}%
   \markboth
-    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries#1\hfill}}}}%
-    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries#1\hfill}}}}}
+    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\sffamily\bfseries#1\hfill}}}}%
+    {\underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\sffamily\bfseries#1\hfill}}}}}
 
 %%% その他のパッケージ %%%
 % 単位
@@ -648,7 +648,7 @@
 \newcommand{\rms}{\mathrm{rms}}
 
 % 図表の番号表示を変更
-\renewcommand{\figurename}{Fig.~}
+\renewcommand{\figurename}{Figure~}
 \renewcommand{\tablename}{Table~}
 
 %==================================================
@@ -842,13 +842,14 @@
 
 %%% 通常の本文ページスタイル %%%
 % 柱（節の番号と見出し）をページ上部の左に，ノンブルをページ下部の中央に表示
+% 柱は節の見出しと同じく，番号も含めてサンセリフ体（ゴシック体）にする
 \NewPageStyle{normal}{
   running_head_position=top-left,   % 柱の位置
   nombre_position=bottom-center,        % ノンブルの位置
   mark_format={_section=
-    \underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\bfseries\thesection\quad#1\hfill}}}
+    \underline{{\rule[-5pt]{0pt}{14pt}\hbox to \columnwidth{\sffamily\bfseries\thesection\quad#1\hfill}}}
     },        % 柱の書式（節の番号と見出しに下線を付ける）
-  nombre={---\thepage---}, % ノンブルの内容
+  nombre={---\ \thepage\ ---}, % ノンブルの内容
   odd_running_head=_section,        % 奇数ページの柱
   even_running_head=_section        % 偶数ページの柱
 }
@@ -858,7 +859,7 @@
 % 柱は表示しない
 \NewPageStyle{cover}{
   nombre_position=bottom-center,        % ノンブルの位置
-  nombre={---\thepage---} % ノンブルの内容
+  nombre={---\ \thepage\ ---} % ノンブルの内容
 }
 
 %%%%%% End of This File %%%%%%
