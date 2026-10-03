@@ -746,6 +746,8 @@
 \definecolor{titleblue}{HTML}{1F4E79}
 
 \newcommand{\makecover}{%
+  % 表紙のページ番号は i とする（ページには表示しない）
+  \pagenumbering{roman}
   \begin{titlepage}
     \thispagestyle{empty}
 
@@ -786,8 +788,8 @@
 
   \end{titlepage}
 
-  % 本文を 1 ページから開始
-  \setcounter{page}{1}
+  % 本文を 1 ページから開始（\pagenumbering でページ番号も 1 に戻る）
+  \pagenumbering{arabic}
 }
 
 %==================================================
